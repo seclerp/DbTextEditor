@@ -40,7 +40,7 @@
             this.dockPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.dockPanel1.Location = new System.Drawing.Point(0, 28);
             this.dockPanel1.Name = "dockPanel1";
-            this.dockPanel1.Size = new System.Drawing.Size(874, 422);
+            this.dockPanel1.Size = new System.Drawing.Size(662, 382);
             this.dockPanel1.TabIndex = 0;
             // 
             // menuStrip1
@@ -50,7 +50,7 @@
             this.fileToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
-            this.menuStrip1.Size = new System.Drawing.Size(874, 28);
+            this.menuStrip1.Size = new System.Drawing.Size(662, 28);
             this.menuStrip1.TabIndex = 2;
             this.menuStrip1.Text = "menuStrip1";
             // 
@@ -64,11 +64,12 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(874, 450);
+            this.ClientSize = new System.Drawing.Size(662, 410);
             this.Controls.Add(this.dockPanel1);
             this.Controls.Add(this.menuStrip1);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MainMenuStrip = this.menuStrip1;
+            this.MinimumSize = new System.Drawing.Size(680, 457);
             this.Name = "MainForm";
             this.Text = "DB Text Editor";
             this.menuStrip1.ResumeLayout(false);
