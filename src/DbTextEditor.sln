@@ -11,6 +11,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DbTextEditor", "DbTextEdito
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DbTextEditor.View", "DbTextEditor.View\DbTextEditor.View.csproj", "{111EBE03-4ACC-4BB9-99B6-218EE8074FE4}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DbTextEditor.Shared", "DbTextEditor.Shared\DbTextEditor.Shared.csproj", "{9F4DED42-A5BF-4295-957C-83E255C1AD1B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DbTextEditor.Model.Tests", "DbTextEditor.Model.Tests\DbTextEditor.Model.Tests.csproj", "{5050DEF1-6C26-4B32-B617-1E5443DA579B}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -33,6 +37,14 @@ Global
 		{111EBE03-4ACC-4BB9-99B6-218EE8074FE4}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{111EBE03-4ACC-4BB9-99B6-218EE8074FE4}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{111EBE03-4ACC-4BB9-99B6-218EE8074FE4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9F4DED42-A5BF-4295-957C-83E255C1AD1B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9F4DED42-A5BF-4295-957C-83E255C1AD1B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9F4DED42-A5BF-4295-957C-83E255C1AD1B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9F4DED42-A5BF-4295-957C-83E255C1AD1B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5050DEF1-6C26-4B32-B617-1E5443DA579B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5050DEF1-6C26-4B32-B617-1E5443DA579B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5050DEF1-6C26-4B32-B617-1E5443DA579B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5050DEF1-6C26-4B32-B617-1E5443DA579B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

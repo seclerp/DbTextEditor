@@ -75,6 +75,9 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
+    <None Include="Main.db">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
@@ -90,6 +93,10 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\DbTextEditor.Shared\DbTextEditor.Shared.csproj">
+      <Project>{9f4ded42-a5bf-4295-957c-83e255c1ad1b}</Project>
+      <Name>DbTextEditor.Shared</Name>
+    </ProjectReference>
     <ProjectReference Include="..\DbTextEditor.View\DbTextEditor.View.csproj">
       <Project>{111ebe03-4acc-4bb9-99b6-218ee8074fe4}</Project>
       <Name>DbTextEditor.View</Name>
@@ -97,6 +104,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="icon.ico" />
+    <Content Include="Migrations\Initial.sql" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
