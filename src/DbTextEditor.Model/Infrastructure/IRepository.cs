@@ -1,4 +1,4 @@
-﻿namespace DbTextEditor.Model.Storage
+﻿namespace DbTextEditor.Model.Infrastructure
 {
     public interface IRepository<TEntity, TKey>
     {

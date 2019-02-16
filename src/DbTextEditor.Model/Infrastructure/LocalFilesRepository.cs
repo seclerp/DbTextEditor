@@ -1,6 +1,5 @@
 ﻿using System.IO;
 using DbTextEditor.Model.Entities;
-using DbTextEditor.Model.Storage;
 using DbTextEditor.Shared.Exceptions;
 
 namespace DbTextEditor.Model.Infrastructure

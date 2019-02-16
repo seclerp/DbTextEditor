@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Specialized;
 using System.Windows.Forms;
+using WindowsExplorer;
 using DbTextEditor.Forms;
 using DbTextEditor.ViewModel;
 using WeifenLuo.WinFormsUI.Docking;
@@ -11,6 +12,7 @@ namespace DbTextEditor.Views
     {
         private readonly MainForm _form;
         private readonly MainViewModel _mainViewModel;
+        private EditorForm _selectedEditor;
 
         public MainView(MainForm form)
         {
@@ -34,6 +36,7 @@ namespace DbTextEditor.Views
 
             var saveFile = new ToolStripMenuItem("Save");
             saveFile.ShortcutKeys = Keys.Control | Keys.S;
+            saveFile.Click += OnSaveFileClick;
 
             var saveAll = new ToolStripMenuItem("Save all");
             saveAll.ShortcutKeys = Keys.Control | Keys.Shift | Keys.S;
@@ -61,16 +64,14 @@ namespace DbTextEditor.Views
                     editorForm.Show(_form.MainDockPanel, DockState.Document);
                 }
             };
+
+            _form.MainDockPanel.ActiveDocumentChanged +=
+                (sender, args) => _selectedEditor = _form.MainDockPanel.ActiveDocument as EditorForm;
         }
         private void InitializeFileView()
         {
-//            var fileTree = new ExplorerTree
-//            {
-//                ShowMyNetwork = false,
-//                ShowMyFavorites = false
-//            };
-//            
-//            form.MainDockPanel.
+            var fileTree = new FileTreeForm(this);
+            fileTree.Show(_form.MainDockPanel, DockState.DockLeft);
         }
 
         private void OnNewFileClick(object sender, EventArgs args)
@@ -89,6 +90,11 @@ namespace DbTextEditor.Views
             {
                 _mainViewModel.OpenFileCommand.Execute(fileName);
             }
+        }
+
+        private void OnSaveFileClick(object sender, EventArgs args)
+        {
+            _selectedEditor?.Save(_form.MainSaveFileDialog);
         }
 
         public void Dispose()

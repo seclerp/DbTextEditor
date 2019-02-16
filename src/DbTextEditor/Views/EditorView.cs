@@ -13,8 +13,8 @@ namespace DbTextEditor.Views
 {
     public class EditorView
     {
-        private readonly EditorForm _editorForm;
         private readonly EditorViewModel _editorViewModel;
+        private readonly EditorForm _editorForm;
 
         private string _currentFileName;
 
@@ -36,11 +36,27 @@ namespace DbTextEditor.Views
             _editorForm.TextEditor.CharAdded += OnTextEditorCharAdded;
         }
 
+        public void Save(SaveFileDialog dialogSource)
+        {
+            var path = _editorViewModel.Path;
+            if (_editorViewModel.IsNewFile)
+            {
+                if (dialogSource.ShowDialog() != DialogResult.OK)
+                {
+                    return;
+                }
+
+                path = dialogSource.FileName;
+            }
+
+            _editorViewModel.SaveFileCommand.Execute(path);
+        }
+
         private void CreateTextEditor()
         {
-            _editorForm.TextEditor = new Scintilla();
+            //_editorForm.TextEditor = new Scintilla();
 
-            _editorForm.Controls.Add(_editorForm.TextEditor);
+            //_editorForm.Controls.Add(_editorForm.TextEditor);
             _editorForm.TextEditor.Dock = DockStyle.Fill;
             _editorForm.TextEditor.WrapMode = WrapMode.None;
             _editorForm.TextEditor.Margins[0].Width = 16;

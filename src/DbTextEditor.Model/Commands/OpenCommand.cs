@@ -1,5 +1,5 @@
 ﻿using DbTextEditor.Model.Entities;
-using DbTextEditor.Model.Storage;
+using DbTextEditor.Model.Infrastructure;
 using DbTextEditor.Shared;
 
 namespace DbTextEditor.Model.Commands
@@ -15,9 +15,9 @@ namespace DbTextEditor.Model.Commands
             _repository = repository;
         }
 
-        public void Execute(string payload)
+        public void Execute(string path)
         {
-            _model.Contents = _repository.Get(payload).Contents;
+            _model.Contents = _repository.Get(path).Contents;
             CommandLogger.LogExecuted<LocalFileModel, OpenCommand>();
         }
     }

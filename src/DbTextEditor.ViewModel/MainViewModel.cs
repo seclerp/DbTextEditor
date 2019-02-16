@@ -1,5 +1,4 @@
 ﻿using System.Collections.ObjectModel;
-using DbTextEditor.Model;
 using DbTextEditor.Shared;
 using DbTextEditor.ViewModel.Commands;
 

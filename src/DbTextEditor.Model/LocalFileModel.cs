@@ -1,7 +1,6 @@
 ﻿using DbTextEditor.Model.Commands;
 using DbTextEditor.Model.Entities;
 using DbTextEditor.Model.Infrastructure;
-using DbTextEditor.Model.Storage;
 using DbTextEditor.Shared;
 
 namespace DbTextEditor.Model
@@ -32,7 +31,7 @@ namespace DbTextEditor.Model
             }
         }
 
-        public ICommand<string> SaveCommand { get; }
+        public ICommand<(string Path, string Contents)> SaveCommand { get; }
         public ICommand<string> OpenCommand { get; }
 
         private readonly IRepository<LocalFileEntity, string> _repository;

@@ -11,11 +11,11 @@ namespace DbTextEditor.ViewModel.Commands
             _mainViewModel = mainViewModel;
         }
 
-        public void Execute(string payload)
+        public void Execute(string path)
         {
             var viewModel = new EditorViewModel();
-            viewModel.InitializeModel(payload);
-            viewModel.Model.OpenCommand.Execute(payload);
+            viewModel.InitializeModel(path);
+            viewModel.Model.OpenCommand.Execute(path);
             _mainViewModel.OpenedEditors.Add(viewModel);
 
             CommandLogger.LogExecuted<MainViewModel, OpenFileCommand>();

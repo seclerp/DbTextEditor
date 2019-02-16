@@ -12,7 +12,6 @@ namespace DbTextEditor.Forms
     public partial class EditorForm : DockContent
     {
         private readonly EditorView _editorView;
-        internal Scintilla TextEditor;
 
         public EditorForm(EditorViewModel editorViewModel)
         {
@@ -25,6 +24,11 @@ namespace DbTextEditor.Forms
         private void OnLoad(object sender, EventArgs e)
         {
             _editorView.OnLoad();
+        }
+
+        public void Save(SaveFileDialog dialogSource)
+        {
+            _editorView.Save(dialogSource);
         }
     }
 }

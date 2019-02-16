@@ -11,6 +11,7 @@ namespace DbTextEditor.ViewModel
         internal LocalFileModel Model { get; private set; }
         public bool IsNewFile => Model is null;
         public ICommand<string> TextChangedCommand { get; }
+        public ICommand<string> SaveFileCommand { get; }
 
         private string _path;
         public string Path
@@ -51,6 +52,7 @@ namespace DbTextEditor.ViewModel
         public EditorViewModel()
         {
             TextChangedCommand = new ChangeTextCommand(this);
+            SaveFileCommand = new SaveFileCommand(this);
         }
 
         public void InitializeModel(string filePath)

@@ -1,7 +1,6 @@
 using System.IO;
 using DbTextEditor.Model.Entities;
 using DbTextEditor.Model.Infrastructure;
-using DbTextEditor.Model.Storage;
 using NUnit.Framework;
 
 namespace DbTextEditor.Model.Tests.Integration

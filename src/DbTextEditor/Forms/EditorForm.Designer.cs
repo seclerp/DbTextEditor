@@ -1,4 +1,6 @@
-﻿namespace DbTextEditor.Forms
+﻿using ScintillaNET;
+
+namespace DbTextEditor.Forms
 {
     partial class EditorForm
     {
@@ -29,18 +31,24 @@
         private void InitializeComponent()
         {
             this.SuspendLayout();
+            this.TextEditor = new ScintillaNET.Scintilla();
+            //
+            // TextEditor
+            //
+            this.TextEditor.Name = "TextEditor";
             // 
             // EditorForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.Controls.Add(this.TextEditor);
             this.ClientSize = new System.Drawing.Size(800, 450);
             this.Name = "EditorForm";
             this.Text = "EditorForm";
             this.ResumeLayout(false);
-
         }
 
         #endregion
+        internal Scintilla TextEditor;
     }
 }

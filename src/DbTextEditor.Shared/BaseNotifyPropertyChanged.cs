@@ -1,9 +1,7 @@
-﻿using System;
-using System.ComponentModel;
+﻿using System.ComponentModel;
 using System.Runtime.CompilerServices;
-using DbTextEditor.Shared;
 
-namespace DbTextEditor.Model
+namespace DbTextEditor.Shared
 {
     public class BaseNotifyPropertyChanged : INotifyPropertyChanged
     {

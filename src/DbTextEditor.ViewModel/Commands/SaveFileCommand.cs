@@ -11,14 +11,14 @@ namespace DbTextEditor.ViewModel.Commands
             _editorViewModel = editorViewModel;
         }
 
-        public void Execute(string payload)
+        public void Execute(string path)
         {
             if (_editorViewModel.IsNewFile)
             {
-                _editorViewModel.InitializeModel(payload);
+                _editorViewModel.InitializeModel(path);
             }
 
-            _editorViewModel.Model.SaveCommand.Execute(payload);
+            _editorViewModel.Model.SaveCommand.Execute((path, _editorViewModel.Contents));
             _editorViewModel.IsModified = false;
 
             CommandLogger.LogExecuted<MainViewModel, SaveFileCommand>();

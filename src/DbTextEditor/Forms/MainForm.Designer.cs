@@ -1,4 +1,4 @@
-﻿namespace DbTextEditor
+﻿namespace DbTextEditor.Forms
 {
     partial class MainForm
     {

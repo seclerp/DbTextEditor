@@ -13,16 +13,16 @@ namespace DbTextEditor.ViewModel.Commands
             _editorViewModel = editorViewModel;
         }
 
-        public void Execute(string payload)
+        public void Execute(string newText)
         {
-            if (_editorViewModel.Contents != payload)
+            if (_editorViewModel.Contents != newText)
             {
                 _editorViewModel.IsModified = true;
             }
 
-            _editorViewModel.Contents = payload;
+            _editorViewModel.Contents = newText;
 
-            CommandLogger.LogExecuted<EditorViewModel, ChangeTextCommand>(payload);
+            CommandLogger.LogExecuted<EditorViewModel, ChangeTextCommand>(newText);
         }
     }
 }

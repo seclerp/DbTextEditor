@@ -1,10 +1,10 @@
 ﻿using DbTextEditor.Model.Entities;
-using DbTextEditor.Model.Storage;
+using DbTextEditor.Model.Infrastructure;
 using DbTextEditor.Shared;
 
 namespace DbTextEditor.Model.Commands
 {
-    public class SaveCommand : ICommand<string>
+    public class SaveCommand : ICommand<(string Path, string Contents)>
     {
         private readonly LocalFileModel _model;
         private readonly IRepository<LocalFileEntity, string> _repository;
@@ -15,12 +15,12 @@ namespace DbTextEditor.Model.Commands
             _repository = repository;
         }
 
-        public void Execute(string payload)
+        public void Execute((string Path, string Contents) payload)
         {
             var entity = new LocalFileEntity
             {
-                Path = _model.Path,
-                Contents = payload
+                Path = payload.Path,
+                Contents = payload.Contents
             };
 
             if (!_repository.Exists(_model.Path))
@@ -31,6 +31,10 @@ namespace DbTextEditor.Model.Commands
             {
                 _repository.Update(entity);
             }
+
+            _model.Path = entity.Path;
+            _model.Contents = entity.Contents;
+
             CommandLogger.LogExecuted<LocalFileModel, SaveCommand>();
         }
     }
