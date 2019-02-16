@@ -8,11 +8,11 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace DbTextEditor
+namespace DbTextEditor.Forms
 {
-    public partial class MainForm : Form
+    public partial class FileTreeForm : Form
     {
-        public MainForm()
+        public FileTreeForm()
         {
             InitializeComponent();
         }

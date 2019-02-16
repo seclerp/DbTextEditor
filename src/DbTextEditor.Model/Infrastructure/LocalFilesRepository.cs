@@ -7,6 +7,16 @@ namespace DbTextEditor.Model.Infrastructure
 {
     public class LocalFilesRepository : IRepository<LocalFileEntity, string>
     {
+        public bool Exists(string key)
+        {
+            if (key is null)
+            {
+                return false;
+            }
+
+            return File.Exists(key);
+        }
+
         public void Create(LocalFileEntity entity)
         {
             File.WriteAllText(entity.Path, entity.Contents);

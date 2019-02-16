@@ -2,11 +2,11 @@ using System.IO;
 using DbTextEditor.Model.Entities;
 using DbTextEditor.Model.Infrastructure;
 using DbTextEditor.Model.Storage;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using NUnit.Framework;
 
 namespace DbTextEditor.Model.Tests.Integration
 {
-    [TestClass]
+    [TestFixture]
     public class LocalFilesTests
     {
         private const string TempDirectory = "/local_files_tests";
@@ -17,8 +17,8 @@ namespace DbTextEditor.Model.Tests.Integration
             _localFilesRepository = new LocalFilesRepository();
         }
 
-        [ClassInitialize]
-        public static void TearUp(TestContext ctx)
+        [OneTimeSetUp]
+        public void SetUp(TestContext ctx)
         {
             if (Directory.Exists(TempDirectory))
             {
@@ -30,13 +30,13 @@ namespace DbTextEditor.Model.Tests.Integration
             }
         }
 
-        [ClassCleanup]
-        public static void TearDown()
+        [OneTimeTearDown]
+        public void TearDown()
         {
             Directory.Delete(TempDirectory, true);
         }
 
-        [TestMethod]
+        [Test]
         public void Create_Success_SimpleFile1()
         {
             var expectedContents = "SimpleContents";
@@ -51,7 +51,7 @@ namespace DbTextEditor.Model.Tests.Integration
             Assert.AreEqual(File.ReadAllText(filePath), expectedContents);
         }
 
-        [TestMethod]
+        [Test]
         public void Get_Success_SimpleFile2()
         {
             var expectedContents = "SimpleContents";
@@ -67,7 +67,7 @@ namespace DbTextEditor.Model.Tests.Integration
             Assert.AreEqual(entity.Contents, expectedContents);
         }
 
-        [TestMethod]
+        [Test]
         public void Update_Success_SimpleFile3()
         {
             var expectedContents = "UpdatedContents";
@@ -87,7 +87,7 @@ namespace DbTextEditor.Model.Tests.Integration
             Assert.AreEqual(File.ReadAllText(filePath), expectedContents);
         }
 
-        [TestMethod]
+        [Test]
         public void Delete_Success_SimpleFile4()
         {
             var filePath = Path.Combine(TempDirectory, "SimpleFile4.txt");
