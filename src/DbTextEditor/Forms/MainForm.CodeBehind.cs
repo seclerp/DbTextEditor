@@ -1,26 +1,23 @@
 ﻿using System;
 using System.Collections.Specialized;
 using System.Windows.Forms;
-using WindowsExplorer;
-using DbTextEditor.Forms;
 using DbTextEditor.ViewModel;
 using WeifenLuo.WinFormsUI.Docking;
 
-namespace DbTextEditor.Views
+namespace DbTextEditor.Forms
 {
-    public class MainView : IDisposable
+    public partial class MainForm
     {
-        private readonly MainForm _form;
         private readonly MainViewModel _mainViewModel;
         private EditorForm _selectedEditor;
 
-        public MainView(MainForm form)
+        public MainForm()
         {
-            _form = form;
             _mainViewModel = new MainViewModel();
+            InitializeComponent();
+
             InitializeMainMenu();
             InitializeDockPanel();
-            InitializeFileView();
         }
 
         private void InitializeMainMenu()
@@ -51,7 +48,7 @@ namespace DbTextEditor.Views
                 new ToolStripSeparator(),
                 close, exit
             });
-            _form.MainMenu.Items.Add(file);
+            MainMenu.Items.Add(file);
         }
 
         private void InitializeDockPanel()
@@ -60,18 +57,16 @@ namespace DbTextEditor.Views
             {
                 if (args.Action == NotifyCollectionChangedAction.Add)
                 {
-                    var editorForm = new EditorForm(args.NewItems[0] as EditorViewModel);
-                    editorForm.Show(_form.MainDockPanel, DockState.Document);
+                    foreach (var newItem in args.NewItems)
+                    {
+                        var editorForm = new EditorForm(newItem as EditorViewModel);
+                        editorForm.Show(MainDockPanel, DockState.Document);
+                    }
                 }
             };
 
-            _form.MainDockPanel.ActiveDocumentChanged +=
-                (sender, args) => _selectedEditor = _form.MainDockPanel.ActiveDocument as EditorForm;
-        }
-        private void InitializeFileView()
-        {
-            var fileTree = new FileTreeForm(this);
-            fileTree.Show(_form.MainDockPanel, DockState.DockLeft);
+            MainDockPanel.ActiveDocumentChanged +=
+                (sender, args) => _selectedEditor = MainDockPanel.ActiveDocument as EditorForm;
         }
 
         private void OnNewFileClick(object sender, EventArgs args)
@@ -81,12 +76,12 @@ namespace DbTextEditor.Views
 
         private void OnOpenFileClick(object sender, EventArgs args)
         {
-            if (_form.MainOpenFileDialog.ShowDialog() != DialogResult.OK)
+            if (MainOpenFileDialog.ShowDialog() != DialogResult.OK)
             {
                 return;
             }
 
-            foreach (var fileName in _form.MainOpenFileDialog.FileNames)
+            foreach (var fileName in MainOpenFileDialog.FileNames)
             {
                 _mainViewModel.OpenFileCommand.Execute(fileName);
             }
@@ -94,11 +89,7 @@ namespace DbTextEditor.Views
 
         private void OnSaveFileClick(object sender, EventArgs args)
         {
-            _selectedEditor?.Save(_form.MainSaveFileDialog);
-        }
-
-        public void Dispose()
-        {
+            _selectedEditor?.Save(MainSaveFileDialog);
         }
     }
 }

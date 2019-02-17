@@ -1,4 +1,5 @@
-﻿using ScintillaNET;
+﻿using System.Windows.Forms;
+using ScintillaNET;
 
 namespace DbTextEditor.Forms
 {
@@ -36,6 +37,11 @@ namespace DbTextEditor.Forms
             // TextEditor
             //
             this.TextEditor.Name = "TextEditor";
+            this.TextEditor.IndentWidth = 4;
+            this.TextEditor.TabWidth = 4;
+            this.TextEditor.BorderStyle = BorderStyle.None;
+            this.TextEditor.Dock = DockStyle.Fill;
+            this.TextEditor.WrapMode = WrapMode.None;
             // 
             // EditorForm
             // 
@@ -44,8 +50,10 @@ namespace DbTextEditor.Forms
             this.Controls.Add(this.TextEditor);
             this.ClientSize = new System.Drawing.Size(800, 450);
             this.Name = "EditorForm";
+            this.Padding = new Padding(10, 0, 0, 0);
             this.Text = "EditorForm";
             this.ResumeLayout(false);
+
         }
 
         #endregion
