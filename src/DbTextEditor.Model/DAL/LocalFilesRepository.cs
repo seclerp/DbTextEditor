@@ -4,7 +4,7 @@ using DbTextEditor.Shared.Exceptions;
 
 namespace DbTextEditor.Model.DAL
 {
-    public class LocalFilesRepository : IRepository<LocalFileEntity, string>
+    public class LocalFilesRepository : IRepository<LocalFileEntity>
     {
         public bool Exists(string key)
         {

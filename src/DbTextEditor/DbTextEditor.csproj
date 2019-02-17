@@ -40,6 +40,10 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="mscorlib" />
+    <Reference Include="Ninject, Version=3.3.4.0, Culture=neutral, PublicKeyToken=c7192dc5380945e7">
+      <HintPath>..\packages\Ninject.3.3.4\lib\net45\Ninject.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="ScintillaNET, Version=3.6.3.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\jacobslusser.ScintillaNET.3.6.3\lib\net40\ScintillaNET.dll</HintPath>
     </Reference>
@@ -83,6 +87,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Configuration\ApplicationModule.cs" />
     <Compile Include="Forms\EditorForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -136,6 +141,10 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\DbTextEditor.Model\DbTextEditor.Model.csproj">
+      <Project>{a78b4fa5-72e3-435c-a36b-3df7b7593bda}</Project>
+      <Name>DbTextEditor.Model</Name>
+    </ProjectReference>
     <ProjectReference Include="..\DbTextEditor.Shared\DbTextEditor.Shared.csproj">
       <Project>{9f4ded42-a5bf-4295-957c-83e255c1ad1b}</Project>
       <Name>DbTextEditor.Shared</Name>

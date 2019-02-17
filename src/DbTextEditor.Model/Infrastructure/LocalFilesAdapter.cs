@@ -4,11 +4,11 @@ using DbTextEditor.Shared;
 
 namespace DbTextEditor.Model.Infrastructure
 {
-    class LocalFilesAdapter : IFilesAdapter
+    public class LocalFilesAdapter : IFilesAdapter
     {
-        private readonly IRepository<LocalFileEntity, string> _repository;
+        private readonly IRepository<LocalFileEntity> _repository;
 
-        public LocalFilesAdapter(IRepository<LocalFileEntity, string> repository)
+        public LocalFilesAdapter(IRepository<LocalFileEntity> repository)
         {
             _repository = repository;
         }

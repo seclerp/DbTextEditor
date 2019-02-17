@@ -9,7 +9,7 @@ namespace DbTextEditor.Model.Tests.Integration
     public class LocalFilesTests
     {
         private const string TempDirectory = "/local_files_tests";
-        private readonly IRepository<LocalFileEntity, string> _localFilesRepository;
+        private readonly IRepository<LocalFileEntity> _localFilesRepository;
 
         public LocalFilesTests()
         {

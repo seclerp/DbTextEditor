@@ -2,15 +2,15 @@ using System.Data.SQLite;
 using System.Linq;
 using Dapper;
 using DbTextEditor.Model.Entities;
-using DbTextEditor.Model.Infrastructure;
 using DbTextEditor.Shared.Exceptions;
 
 namespace DbTextEditor.Model.DAL
 {
-    public class DbFilesRepository : IRepository<DbFileEntity, string>
+    public class DbFilesRepository : IRepository<DbFileEntity>
     {
-        private readonly string _connectionString;
         private const string FilesTable = "files";
+
+        private readonly string _connectionString;
 
         public DbFilesRepository(string connectionString)
         {

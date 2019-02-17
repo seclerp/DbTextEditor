@@ -1,11 +1,11 @@
 ﻿namespace DbTextEditor.Model.DAL
 {
-    public interface IRepository<TEntity, TKey>
+    public interface IRepository<TEntity>
     {
-        bool Exists(TKey key);
+        bool Exists(string key);
         void Create(TEntity entity);
-        TEntity Get(TKey key);
+        TEntity Get(string key);
         void Update(TEntity entity);
-        void Delete(TKey key);
+        void Delete(string key);
     }
 }

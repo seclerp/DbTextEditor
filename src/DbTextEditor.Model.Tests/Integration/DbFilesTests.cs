@@ -10,8 +10,8 @@ namespace DbTextEditor.Model.Tests.Integration
     [TestFixture]
     public class DbFilesTests
     {
-        private readonly IRepository<DbFileEntity, string> _repository;
-        private const string ConnectionString = "Data Source=files_tests.db;Version=3;";
+        private readonly IRepository<DbFileEntity> _repository;
+        private const string ConnectionString = TestConstants.TestConnectionString;
 
         public DbFilesTests()
         {
