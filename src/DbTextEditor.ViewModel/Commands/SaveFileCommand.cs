@@ -18,7 +18,13 @@ namespace DbTextEditor.ViewModel.Commands
                 _editorViewModel.InitializeModel(path);
             }
 
-            _editorViewModel.Model.SaveCommand.Execute((path, _editorViewModel.Contents));
+            var model = new FileDto
+            {
+                FileName = path,
+                Contents = _editorViewModel.Contents
+            };
+
+            _editorViewModel.Model.Save(model);
             _editorViewModel.IsModified.Value = false;
 
             CommandLogger.LogExecuted<MainViewModel, SaveFileCommand>();

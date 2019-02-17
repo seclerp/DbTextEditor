@@ -1,25 +1,29 @@
-﻿using DbTextEditor.Model.Commands;
-using DbTextEditor.Model.Entities;
+﻿using DbTextEditor.Model.DAL;
 using DbTextEditor.Model.Infrastructure;
 using DbTextEditor.Shared;
 
 namespace DbTextEditor.Model
 {
-    public class LocalFileModel : BaseNotifyPropertyChanged
+    public class LocalFileModel
     {
-        public ObservableProperty<string> Path { get; set; } = new ObservableProperty<string>();
-        public ObservableProperty<string> Contents { get; set; } = new ObservableProperty<string>();
+        public ObservableProperty<string> Path { get; } = new ObservableProperty<string>();
+        public ObservableProperty<string> Contents { get; } = new ObservableProperty<string>();
 
-        public ICommand<(string Path, string Contents)> SaveCommand { get; }
-
-        private readonly IRepository<LocalFileEntity, string> _repository;
+        private readonly IFilesAdapter _adapter;
 
         public LocalFileModel(string path)
         {
-            _repository = new LocalFilesRepository();
-            SaveCommand = new SaveCommand(this, _repository);
+            _adapter = new LocalFilesAdapter(new LocalFilesRepository());
             Path.Value = path;
-            Contents.Value = _repository.Get(Path.Value).Contents;
+            Contents.Value = _adapter.Open(Path.Value).Contents;
+        }
+
+        public void Save(FileDto model)
+        {
+            _adapter.Save(model);
+
+            Path.Value = model.FileName;
+            Contents.Value = model.Contents;
         }
     }
 }

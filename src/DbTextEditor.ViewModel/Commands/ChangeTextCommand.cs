@@ -1,6 +1,4 @@
-﻿using System;
-using System.Windows.Input;
-using DbTextEditor.Shared;
+﻿using DbTextEditor.Shared;
 
 namespace DbTextEditor.ViewModel.Commands
 {

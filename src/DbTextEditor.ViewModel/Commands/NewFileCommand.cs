@@ -1,5 +1,4 @@
-﻿using System;
-using DbTextEditor.Shared;
+﻿using DbTextEditor.Shared;
 
 namespace DbTextEditor.ViewModel.Commands
 {
@@ -13,8 +12,9 @@ namespace DbTextEditor.ViewModel.Commands
 
         public void Execute()
         {
-            var newEditorViewModel = new EditorViewModel();
-            
+            var newEditorViewModel = new EditorViewModel(_mainViewModel);
+            _mainViewModel.OpenedEditors.Add(newEditorViewModel);
+
             CommandLogger.LogExecuted<MainViewModel, NewFileCommand>();
         }
     }

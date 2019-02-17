@@ -1,6 +1,6 @@
 using System.IO;
+using DbTextEditor.Model.DAL;
 using DbTextEditor.Model.Entities;
-using DbTextEditor.Model.Infrastructure;
 using NUnit.Framework;
 
 namespace DbTextEditor.Model.Tests.Integration
@@ -17,7 +17,7 @@ namespace DbTextEditor.Model.Tests.Integration
         }
 
         [OneTimeSetUp]
-        public void SetUp(TestContext ctx)
+        public void SetUp()
         {
             if (Directory.Exists(TempDirectory))
             {

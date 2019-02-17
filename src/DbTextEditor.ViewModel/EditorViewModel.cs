@@ -7,6 +7,7 @@ namespace DbTextEditor.ViewModel
 {
     public class EditorViewModel
     {
+        internal readonly MainViewModel MainViewModel;
         internal LocalFileModel Model { get; private set; }
         public bool IsNewFile => Model is null;
 
@@ -17,8 +18,9 @@ namespace DbTextEditor.ViewModel
         public ObservableProperty<string> Contents { get; } = new ObservableProperty<string>(string.Empty);
         public ObservableProperty<bool> IsModified { get; } = new ObservableProperty<bool>(false);
 
-        public EditorViewModel()
+        public EditorViewModel(MainViewModel mainViewModel)
         {
+            MainViewModel = mainViewModel;
             TextChangedCommand = new ChangeTextCommand(this);
             SaveFileCommand = new SaveFileCommand(this);
         }

@@ -13,7 +13,7 @@ namespace DbTextEditor.ViewModel.Commands
 
         public void Execute(string path)
         {
-            var viewModel = new EditorViewModel();
+            var viewModel = new EditorViewModel(_mainViewModel);
             viewModel.InitializeModel(path);
             _mainViewModel.OpenedEditors.Add(viewModel);
 

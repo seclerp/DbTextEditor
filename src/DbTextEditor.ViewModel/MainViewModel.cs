@@ -4,7 +4,7 @@ using DbTextEditor.ViewModel.Commands;
 
 namespace DbTextEditor.ViewModel
 {
-    public class MainViewModel : BaseNotifyPropertyChanged
+    public class MainViewModel
     {
         public ICommand NewFileCommand { get; }
         public ICommand<string> OpenFileCommand { get; }

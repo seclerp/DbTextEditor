@@ -1,4 +1,4 @@
-﻿namespace DbTextEditor.Model.Infrastructure
+﻿namespace DbTextEditor.Model.DAL
 {
     public interface IRepository<TEntity, TKey>
     {

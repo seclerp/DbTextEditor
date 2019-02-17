@@ -24,6 +24,7 @@ namespace DbTextEditor.Forms
         {
             _editorViewModel = editorViewModel;
             Load += OnLoad;
+            Closing += OnClosing;
             InitializeComponent();
         }
 
@@ -37,20 +38,42 @@ namespace DbTextEditor.Forms
             TextEditor.CharAdded += OnTextEditorCharAdded;
         }
 
-        public void Save()
+        private void OnClosing(object sender, CancelEventArgs e)
+        {
+            if (_isModified.Value)
+            {
+                var saveQuestionResult = MessageBox.Show(
+                    $"Do you want to save changed made in '{_currentFileName}'?", 
+                    "Save changes?", MessageBoxButtons.YesNoCancel);
+                if (saveQuestionResult == DialogResult.Yes)
+                {
+                    if (!Save())
+                    {
+                        e.Cancel = true;
+                    }
+                }
+                else if (saveQuestionResult == DialogResult.Cancel)
+                {
+                    e.Cancel = true;
+                }
+            }
+        }
+
+        public bool Save()
         {
             var path = _editorViewModel.Path.Value;
             if (_editorViewModel.IsNewFile)
             {
                 if (MainForm.SaveDialog.ShowDialog() != DialogResult.OK)
                 {
-                    return;
+                    return false;
                 }
 
                 path = MainForm.SaveDialog.FileName;
             }
 
             _editorViewModel.SaveFileCommand.Execute(path);
+            return true;
         }
 
         private void MakeBindings()
@@ -62,6 +85,8 @@ namespace DbTextEditor.Forms
             Bindings.BindObservables(_editorViewModel.Path, _path);
             Bindings.BindObservables(_editorViewModel.Contents, _text);
             Bindings.BindObservables(_editorViewModel.IsModified, _isModified);
+
+            RefreshTabTitle(_path.Value);
         }
 
         private void InitializeTextEditor()

@@ -2,7 +2,7 @@
 using DbTextEditor.Model.Entities;
 using DbTextEditor.Shared.Exceptions;
 
-namespace DbTextEditor.Model.Infrastructure
+namespace DbTextEditor.Model.DAL
 {
     public class LocalFilesRepository : IRepository<LocalFileEntity, string>
     {

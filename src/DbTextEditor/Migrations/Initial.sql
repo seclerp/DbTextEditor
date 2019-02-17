@@ -1,5 +1,5 @@
 ﻿CREATE TABLE files (
-	Id       INT PRIMARY KEY,
+	Id       NVARCHAR(36) PRIMARY KEY,
 	Name     NVARCHAR,
 	Revision INTEGER,
 	Contents BLOB
