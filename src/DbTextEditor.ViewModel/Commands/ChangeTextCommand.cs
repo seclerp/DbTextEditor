@@ -17,10 +17,10 @@ namespace DbTextEditor.ViewModel.Commands
         {
             if (_editorViewModel.Contents != newText)
             {
-                _editorViewModel.IsModified = true;
+                _editorViewModel.IsModified.Value = true;
             }
 
-            _editorViewModel.Contents = newText;
+            _editorViewModel.Contents.Value = newText;
 
             CommandLogger.LogExecuted<EditorViewModel, ChangeTextCommand>(newText);
         }

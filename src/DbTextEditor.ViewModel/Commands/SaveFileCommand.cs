@@ -19,7 +19,7 @@ namespace DbTextEditor.ViewModel.Commands
             }
 
             _editorViewModel.Model.SaveCommand.Execute((path, _editorViewModel.Contents));
-            _editorViewModel.IsModified = false;
+            _editorViewModel.IsModified.Value = false;
 
             CommandLogger.LogExecuted<MainViewModel, SaveFileCommand>();
         }

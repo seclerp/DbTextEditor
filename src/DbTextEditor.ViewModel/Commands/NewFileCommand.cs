@@ -13,12 +13,8 @@ namespace DbTextEditor.ViewModel.Commands
 
         public void Execute()
         {
-            _mainViewModel.OpenedEditors.Add(new EditorViewModel
-            {
-                Path = null,
-                Contents = string.Empty
-            });
-
+            var newEditorViewModel = new EditorViewModel();
+            
             CommandLogger.LogExecuted<MainViewModel, NewFileCommand>();
         }
     }

@@ -10,7 +10,7 @@
 				"configGlossary.poweredByIcon": "/images/cofax.gif",
 				"configGlossary.staticPath": "/content/static",
 				"templateProcessorClass": "org.cofax.WysiwygTemplate",
-				"templateLoaderClass": "org.cofax.FilesTemplateLoader",
+				"templateLoaderClass": "org.cofax.FilesTemplateLoader", 
 				"templatePath": "templates",
 				"templateOverridePath": "",
 				"defaultListTemplate": "listTemplate.htm",

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Specialized;
 using System.Windows.Forms;
+using DbTextEditor.Shared;
 using DbTextEditor.ViewModel;
 using WeifenLuo.WinFormsUI.Docking;
 
@@ -11,13 +12,28 @@ namespace DbTextEditor.Forms
         private readonly MainViewModel _mainViewModel;
         private EditorForm _selectedEditor;
 
+        public static SaveFileDialog SaveDialog { get; private set; }
+        public static OpenFileDialog OpenDialog { get; private set; }
+
         public MainForm()
         {
             _mainViewModel = new MainViewModel();
             InitializeComponent();
-
+            SetupDialogs();
             InitializeMainMenu();
             InitializeDockPanel();
+            MakeDataBindings();
+        }
+
+        private void MakeDataBindings()
+        {
+            Bindings.MakeForCollection(_mainViewModel.OpenedEditors, OnOpenedEditorCollectionChanged);
+        }
+
+        private void SetupDialogs()
+        {
+            SaveDialog = MainSaveFileDialog;
+            OpenDialog = MainOpenFileDialog;
         }
 
         private void InitializeMainMenu()
@@ -53,20 +69,20 @@ namespace DbTextEditor.Forms
 
         private void InitializeDockPanel()
         {
-            _mainViewModel.OpenedEditors.CollectionChanged += (sender, args) =>
-            {
-                if (args.Action == NotifyCollectionChangedAction.Add)
-                {
-                    foreach (var newItem in args.NewItems)
-                    {
-                        var editorForm = new EditorForm(newItem as EditorViewModel);
-                        editorForm.Show(MainDockPanel, DockState.Document);
-                    }
-                }
-            };
-
             MainDockPanel.ActiveDocumentChanged +=
                 (sender, args) => _selectedEditor = MainDockPanel.ActiveDocument as EditorForm;
+        }
+
+        private void OnOpenedEditorCollectionChanged(NotifyCollectionChangedEventArgs args)
+        {
+            if (args.Action == NotifyCollectionChangedAction.Add)
+            {
+                foreach (var newItem in args.NewItems)
+                {
+                    var editorForm = new EditorForm(newItem as EditorViewModel);
+                    editorForm.Show(MainDockPanel, DockState.Document);
+                }
+            }
         }
 
         private void OnNewFileClick(object sender, EventArgs args)
@@ -89,7 +105,7 @@ namespace DbTextEditor.Forms
 
         private void OnSaveFileClick(object sender, EventArgs args)
         {
-            _selectedEditor?.Save(MainSaveFileDialog);
+            _selectedEditor?.Save();
         }
     }
 }

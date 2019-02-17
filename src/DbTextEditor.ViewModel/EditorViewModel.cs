@@ -1,53 +1,21 @@
-﻿using System.ComponentModel;
-using DbTextEditor.Model;
+﻿using DbTextEditor.Model;
 using DbTextEditor.Shared;
 using DbTextEditor.Shared.Exceptions;
 using DbTextEditor.ViewModel.Commands;
 
 namespace DbTextEditor.ViewModel
 {
-    public class EditorViewModel : BaseNotifyPropertyChanged
+    public class EditorViewModel
     {
         internal LocalFileModel Model { get; private set; }
         public bool IsNewFile => Model is null;
+
         public ICommand<string> TextChangedCommand { get; }
         public ICommand<string> SaveFileCommand { get; }
 
-        private string _path;
-        public string Path
-        {
-            get => _path;
-            set
-            {
-                if (_path == value) return;
-                _path = value;
-                OnPropertyChanged();
-            }
-        }
-
-        private string _contents;
-        public string Contents
-        {
-            get => _contents;
-            set
-            {
-                if (_contents == value) return;
-                _contents = value;
-                OnPropertyChanged();
-            }
-        }
-
-        private bool _isModified;
-        public bool IsModified
-        {
-            get => _isModified;
-            set
-            {
-                if (_isModified == value) return;
-                _isModified = value;
-                OnPropertyChanged();
-            }
-        }
+        public ObservableProperty<string> Path { get; } = new ObservableProperty<string>(null);
+        public ObservableProperty<string> Contents { get; } = new ObservableProperty<string>(string.Empty);
+        public ObservableProperty<bool> IsModified { get; } = new ObservableProperty<bool>(false);
 
         public EditorViewModel()
         {
@@ -62,22 +30,14 @@ namespace DbTextEditor.ViewModel
                 throw new BusinessLogicException("Model is already set for this view model");
             }
 
-            Model = new LocalFileModel();
-            Model.PropertyChanged += OnModelPropertyChanged;
-            Model.Path = filePath;
+            Model = new LocalFileModel(filePath);
+            MakeBindings();
         }
 
-        private void OnModelPropertyChanged(object sender, PropertyChangedEventArgs args)
+        private void MakeBindings()
         {
-            switch (args.PropertyName)
-            {
-                case "Path":
-                    Path = Model.Path;
-                    break;
-                case "Contents":
-                    Contents = Model.Contents;
-                    break;
-            }
+            Bindings.BindObservables(Model.Path, Path, BindingMode.OneWay);
+            Bindings.BindObservables(Model.Contents, Contents, BindingMode.OneWay);
         }
     }
 }

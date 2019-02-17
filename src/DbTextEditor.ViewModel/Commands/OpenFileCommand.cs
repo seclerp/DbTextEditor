@@ -15,7 +15,6 @@ namespace DbTextEditor.ViewModel.Commands
         {
             var viewModel = new EditorViewModel();
             viewModel.InitializeModel(path);
-            viewModel.Model.OpenCommand.Execute(path);
             _mainViewModel.OpenedEditors.Add(viewModel);
 
             CommandLogger.LogExecuted<MainViewModel, OpenFileCommand>();

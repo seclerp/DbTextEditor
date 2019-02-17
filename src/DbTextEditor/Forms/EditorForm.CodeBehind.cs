@@ -5,6 +5,7 @@ using System.Drawing;
 using System.IO;
 using System.Text.RegularExpressions;
 using System.Windows.Forms;
+using DbTextEditor.Shared;
 using DbTextEditor.ViewModel;
 using ScintillaNET;
 
@@ -15,6 +16,9 @@ namespace DbTextEditor.Forms
         private readonly EditorViewModel _editorViewModel;
 
         private string _currentFileName;
+        private ObservableProperty<string> _path;
+        private ObservableProperty<string> _text;
+        private ObservableProperty<bool> _isModified;
 
         public EditorForm(EditorViewModel editorViewModel)
         {
@@ -26,29 +30,38 @@ namespace DbTextEditor.Forms
         public void OnLoad(object sender, EventArgs args)
         {
             InitializeTextEditor();
-            RefreshContents();
-            RefreshTabTitle();
 
-            _editorViewModel.PropertyChanged += OnViewModelPropertyChanged;
+            MakeBindings();
             TextEditor.TextChanged += OnViewTextChanged;
             TextEditor.InsertCheck += OnTextEditorInsertCheck;
             TextEditor.CharAdded += OnTextEditorCharAdded;
         }
 
-        public void Save(SaveFileDialog dialogSource)
+        public void Save()
         {
-            var path = _editorViewModel.Path;
+            var path = _editorViewModel.Path.Value;
             if (_editorViewModel.IsNewFile)
             {
-                if (dialogSource.ShowDialog() != DialogResult.OK)
+                if (MainForm.SaveDialog.ShowDialog() != DialogResult.OK)
                 {
                     return;
                 }
 
-                path = dialogSource.FileName;
+                path = MainForm.SaveDialog.FileName;
             }
 
             _editorViewModel.SaveFileCommand.Execute(path);
+        }
+
+        private void MakeBindings()
+        {
+            _path = new ObservableProperty<string>(_editorViewModel.Path, OnPathChanged);
+            _text = new ObservableProperty<string>(_editorViewModel.Contents, OnContentsChanged);
+            _isModified = new ObservableProperty<bool>(_editorViewModel.IsModified, OnIsModifiedChanged);
+
+            Bindings.BindObservables(_editorViewModel.Path, _path);
+            Bindings.BindObservables(_editorViewModel.Contents, _text);
+            Bindings.BindObservables(_editorViewModel.IsModified, _isModified);
         }
 
         private void InitializeTextEditor()
@@ -80,17 +93,19 @@ namespace DbTextEditor.Forms
             TextEditor.Markers[Marker.FolderTail].Symbol = MarkerSymbol.LCorner;
         }
 
-        private void OnViewModelPropertyChanged(object sender, PropertyChangedEventArgs args)
+        private void OnContentsChanged(string newValue)
         {
-            if (args.PropertyName == "Contents")
-            {
-                RefreshContents();
-            }
+            RefreshContents(newValue);
+        }
 
-            if (args.PropertyName == "Path" || args.PropertyName == "IsModified")
-            {
-                RefreshTabTitle();
-            }
+        private void OnPathChanged(string newValue)
+        {
+            RefreshTabTitle(newValue);
+        }
+
+        private void OnIsModifiedChanged(bool _)
+        {
+            RefreshTabTitle(_editorViewModel.Path);
         }
 
         private void OnViewTextChanged(object sender, EventArgs e)
@@ -98,17 +113,17 @@ namespace DbTextEditor.Forms
             _editorViewModel.TextChangedCommand.Execute(TextEditor.Text);
         }
 
-        private void RefreshContents()
+        private void RefreshContents(string newValue)
         {
-            if (_editorViewModel.Contents != TextEditor.Text)
+            if (newValue != TextEditor.Text)
             {
-                TextEditor.Text = _editorViewModel.Contents;
+                TextEditor.Text = newValue;
             }
         }
 
-        private void RefreshTabTitle()
+        private void RefreshTabTitle(string newPath)
         {
-            var newFileName = _editorViewModel.Path is null ? "[new file]" : Path.GetFileName(_editorViewModel.Path);
+            var newFileName = newPath is null ? "[new file]" : Path.GetFileName(_editorViewModel.Path);
             var modifiedStar = _editorViewModel.IsModified ? "*" : string.Empty;
             if (newFileName != _currentFileName)
             {

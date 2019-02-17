@@ -7,40 +7,19 @@ namespace DbTextEditor.Model
 {
     public class LocalFileModel : BaseNotifyPropertyChanged
     {
-        private string _path;
-        public string Path
-        {
-            get => _path;
-            set
-            {
-                if (_path == value) return;
-                _path = value;
-                OnPropertyChanged();
-            }
-        }
-
-        private string _contents;
-        public string Contents
-        {
-            get => _contents;
-            set
-            {
-                if (_contents == value) return;
-                _contents = value;
-                OnPropertyChanged();
-            }
-        }
+        public ObservableProperty<string> Path { get; set; } = new ObservableProperty<string>();
+        public ObservableProperty<string> Contents { get; set; } = new ObservableProperty<string>();
 
         public ICommand<(string Path, string Contents)> SaveCommand { get; }
-        public ICommand<string> OpenCommand { get; }
 
         private readonly IRepository<LocalFileEntity, string> _repository;
 
-        public LocalFileModel()
+        public LocalFileModel(string path)
         {
             _repository = new LocalFilesRepository();
             SaveCommand = new SaveCommand(this, _repository);
-            OpenCommand = new OpenCommand(this, _repository);
+            Path.Value = path;
+            Contents.Value = _repository.Get(Path.Value).Contents;
         }
     }
 }

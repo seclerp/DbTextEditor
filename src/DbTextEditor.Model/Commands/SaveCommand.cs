@@ -32,8 +32,8 @@ namespace DbTextEditor.Model.Commands
                 _repository.Update(entity);
             }
 
-            _model.Path = entity.Path;
-            _model.Contents = entity.Contents;
+            _model.Path.Value = entity.Path;
+            _model.Contents.Value = entity.Contents;
 
             CommandLogger.LogExecuted<LocalFileModel, SaveCommand>();
         }
