@@ -6,9 +6,9 @@ namespace DbTextEditor.Model.Infrastructure
 {
     public class LocalFilesAdapter : IFilesAdapter
     {
-        private readonly IRepository<LocalFileEntity> _repository;
+        private readonly ILocalFilesRepository _repository;
 
-        public LocalFilesAdapter(IRepository<LocalFileEntity> repository)
+        public LocalFilesAdapter(ILocalFilesRepository repository)
         {
             _repository = repository;
         }

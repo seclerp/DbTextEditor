@@ -9,10 +9,10 @@ namespace DbTextEditor.Model.Tests.Configuration
     {
         public override void Load()
         {
-            Bind<IRepository<LocalFileEntity>>()
+            Bind<ILocalFilesRepository>()
                 .To<LocalFilesRepository>();
 
-            Bind<IRepository<DbFileEntity>>()
+            Bind<IDbFilesRepository>()
                 .To<DbFilesRepository>()
                 .WithConstructorArgument("connectionString", TestConstants.TestConnectionString);
 

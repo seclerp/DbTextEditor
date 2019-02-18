@@ -7,9 +7,9 @@ namespace DbTextEditor.Model.Infrastructure
 {
     public class DbFilesAdapter : IFilesAdapter
     {
-        private readonly IRepository<DbFileEntity> _repository;
+        private readonly IDbFilesRepository _repository;
 
-        public DbFilesAdapter(IRepository<DbFileEntity> repository)
+        public DbFilesAdapter(IDbFilesRepository repository)
         {
             _repository = repository;
         }

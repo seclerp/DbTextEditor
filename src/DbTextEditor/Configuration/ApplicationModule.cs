@@ -1,7 +1,8 @@
 using System.Configuration;
+using DbTextEditor.Model;
 using DbTextEditor.Model.DAL;
-using DbTextEditor.Model.Entities;
 using DbTextEditor.Model.Infrastructure;
+using DbTextEditor.ViewModel;
 using Ninject.Modules;
 
 namespace DbTextEditor.Configuration
@@ -10,12 +11,19 @@ namespace DbTextEditor.Configuration
     {
         public override void Load()
         {
-            Bind<IRepository<LocalFileEntity>>()
+            RegisterDal();
+            RegisterViewModel();
+            RegisterModel();
+        }
+
+        private void RegisterDal()
+        {
+            Bind<ILocalFilesRepository>()
                 .To<LocalFilesRepository>();
 
-            Bind<IRepository<DbFileEntity>>()
+            Bind<IDbFilesRepository>()
                 .To<DbFilesRepository>()
-                .WithConstructorArgument("connectionString", ConfigurationManager.ConnectionStrings["Main"]);
+                .WithConstructorArgument("connectionString", ConfigurationManager.ConnectionStrings["Main"].ConnectionString);
 
             Bind<IFilesAdapter>()
                 .To<LocalFilesAdapter>()
@@ -24,6 +32,19 @@ namespace DbTextEditor.Configuration
             Bind<IFilesAdapter>()
                 .To<DbFilesAdapter>()
                 .Named("DbFilesAdapter");
+        }
+
+        private void RegisterViewModel()
+        {
+            Bind<IDatabaseViewViewModel>()
+                .To<DatabaseViewViewModel>();
+        }
+
+        private void RegisterModel()
+        {
+            Bind<IDatabaseModel>()
+                .To<DatabaseModel>()
+                .InSingletonScope();
         }
     }
 }

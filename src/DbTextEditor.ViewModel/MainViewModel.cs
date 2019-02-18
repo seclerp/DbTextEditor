@@ -8,14 +8,12 @@ namespace DbTextEditor.ViewModel
     {
         public ICommand NewFileCommand { get; }
         public ICommand<string> OpenFileCommand { get; }
-        public ObservableCollection<EditorViewModel> OpenedEditors { get; }
+        public ObservableCollection<EditorViewModel> OpenedEditors { get; } = new ObservableCollection<EditorViewModel>();
 
         public MainViewModel()
         {
             NewFileCommand = new NewFileCommand(this);
             OpenFileCommand = new OpenFileCommand(this);
-
-            OpenedEditors = new ObservableCollection<EditorViewModel>();
         }
     }
 }

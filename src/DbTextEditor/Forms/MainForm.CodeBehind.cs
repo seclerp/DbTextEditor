@@ -22,12 +22,13 @@ namespace DbTextEditor.Forms
             SetupDialogs();
             InitializeMainMenu();
             InitializeDockPanel();
-            MakeDataBindings();
+            InitializeDatabaseView();
+            MakeBindings();
         }
 
-        private void MakeDataBindings()
+        private void MakeBindings()
         {
-            Bindings.MakeForCollection(_mainViewModel.OpenedEditors, OnOpenedEditorCollectionChanged);
+            Bindings.ForCollection(_mainViewModel.OpenedEditors, OnOpenedEditorCollectionChanged);
         }
 
         private void SetupDialogs()
@@ -38,6 +39,8 @@ namespace DbTextEditor.Forms
 
         private void InitializeMainMenu()
         {
+            // File
+            // 
             var file = new ToolStripMenuItem("File");
             var newFile = new ToolStripMenuItem("New");
             newFile.Click += OnNewFileClick;
@@ -54,7 +57,6 @@ namespace DbTextEditor.Forms
             var saveAll = new ToolStripMenuItem("Save all");
             saveAll.ShortcutKeys = Keys.Control | Keys.Shift | Keys.S;
 
-            var close = new ToolStripMenuItem("Close");
             var exit = new ToolStripMenuItem("Exit");
             exit.ShortcutKeys = Keys.Alt | Keys.F4;
 
@@ -62,15 +64,36 @@ namespace DbTextEditor.Forms
             {
                 newFile, openFile, saveFile, saveAll,
                 new ToolStripSeparator(),
-                close, exit
+                exit
             });
             MainMenu.Items.Add(file);
+
+            // Database
+            //
+            var database = new ToolStripMenuItem("Database");
+
+            var import = new ToolStripMenuItem("Import file");
+            import.ShortcutKeys = Keys.Control | Keys.Shift | Keys.I;
+
+            var export = new ToolStripMenuItem("Export file");
+            export.ShortcutKeys = Keys.Control | Keys.Shift | Keys.E;
+
+            database.DropDownItems.AddRange(new ToolStripItem[]
+            {
+                import, export
+            });
+            MainMenu.Items.Add(database);
         }
 
         private void InitializeDockPanel()
         {
             MainDockPanel.ActiveDocumentChanged +=
                 (sender, args) => _selectedEditor = MainDockPanel.ActiveDocument as EditorForm;
+        }
+
+        private void InitializeDatabaseView()
+        {
+            new DatabaseViewForm().Show(MainDockPanel, DockState.DockLeft);
         }
 
         private void OnOpenedEditorCollectionChanged(NotifyCollectionChangedEventArgs args)

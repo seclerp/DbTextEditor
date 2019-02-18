@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using System.Data.SQLite;
 using System.Linq;
 using Dapper;
@@ -6,7 +7,7 @@ using DbTextEditor.Shared.Exceptions;
 
 namespace DbTextEditor.Model.DAL
 {
-    public class DbFilesRepository : IRepository<DbFileEntity>
+    public class DbFilesRepository : IDbFilesRepository
     {
         private const string FilesTable = "files";
 
@@ -77,6 +78,15 @@ namespace DbTextEditor.Model.DAL
             {
                 connection.Open();
                 connection.Execute($"DELETE FROM {FilesTable} WHERE Name = @Name;", new { Name = name });
+            }
+        }
+
+        public IEnumerable<DbFileEntity> GetAll()
+        {
+            using (var connection = GetConnection())
+            {
+                connection.Open();
+                return connection.Query<DbFileEntity>($"SELECT * FROM {FilesTable};").ToList();
             }
         }
 
