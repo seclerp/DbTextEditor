@@ -29,9 +29,9 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.Windows.Forms.ListViewItem listViewItem4 = new System.Windows.Forms.ListViewItem("Row1", "file-icon.png");
-            System.Windows.Forms.ListViewItem listViewItem5 = new System.Windows.Forms.ListViewItem("Row2", "file-icon.png");
-            System.Windows.Forms.ListViewItem listViewItem6 = new System.Windows.Forms.ListViewItem("Row3", "file-icon.png");
+            System.Windows.Forms.ListViewItem listViewItem1 = new System.Windows.Forms.ListViewItem("Row1", "file-icon.png");
+            System.Windows.Forms.ListViewItem listViewItem2 = new System.Windows.Forms.ListViewItem("Row2", "file-icon.png");
+            System.Windows.Forms.ListViewItem listViewItem3 = new System.Windows.Forms.ListViewItem("Row3", "file-icon.png");
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(DatabaseViewForm));
             this.FilesListView = new System.Windows.Forms.ListView();
             this.FileNameHeader = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
@@ -49,12 +49,12 @@
             this.FilesListView.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
             this.FileNameHeader});
             this.FilesListView.Items.AddRange(new System.Windows.Forms.ListViewItem[] {
-            listViewItem4,
-            listViewItem5,
-            listViewItem6});
+            listViewItem1,
+            listViewItem2,
+            listViewItem3});
             this.FilesListView.Location = new System.Drawing.Point(12, 50);
             this.FilesListView.Name = "FilesListView";
-            this.FilesListView.Size = new System.Drawing.Size(177, 240);
+            this.FilesListView.Size = new System.Drawing.Size(249, 240);
             this.FilesListView.SmallImageList = this.ListViewImageList;
             this.FilesListView.TabIndex = 0;
             this.FilesListView.UseCompatibleStateImageBehavior = false;
@@ -76,7 +76,7 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.FilterBox.Location = new System.Drawing.Point(99, 18);
             this.FilterBox.Name = "FilterBox";
-            this.FilterBox.Size = new System.Drawing.Size(86, 22);
+            this.FilterBox.Size = new System.Drawing.Size(158, 22);
             this.FilterBox.TabIndex = 1;
             // 
             // label1
@@ -101,7 +101,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(201, 302);
+            this.ClientSize = new System.Drawing.Size(273, 302);
             this.Controls.Add(this.RefreshButton);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.FilterBox);
