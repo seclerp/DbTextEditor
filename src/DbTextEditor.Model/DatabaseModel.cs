@@ -1,7 +1,10 @@
 using System.Collections.ObjectModel;
 using DbTextEditor.Model.DAL;
+using DbTextEditor.Model.DAL.Interfaces;
 using DbTextEditor.Model.Entities;
+using DbTextEditor.Model.Interfaces;
 using DbTextEditor.Shared;
+using DbTextEditor.Shared.DataBinding;
 
 namespace DbTextEditor.Model
 {

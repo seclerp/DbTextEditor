@@ -2,9 +2,9 @@ using System;
 using System.Collections.Specialized;
 using System.Linq;
 using System.Windows.Forms;
-using DbTextEditor.Shared;
+using DbTextEditor.Shared.DataBinding;
 using DbTextEditor.Shared.DependencyInjection;
-using DbTextEditor.ViewModel;
+using DbTextEditor.ViewModel.Interfaces;
 
 namespace DbTextEditor.Forms
 {

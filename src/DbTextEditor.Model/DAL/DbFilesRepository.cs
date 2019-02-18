@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using System.Data.SQLite;
 using System.Linq;
 using Dapper;
+using DbTextEditor.Model.DAL.Interfaces;
 using DbTextEditor.Model.Entities;
 using DbTextEditor.Shared.Exceptions;
 

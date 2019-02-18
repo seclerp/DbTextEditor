@@ -1,5 +1,6 @@
 using Ninject;
 using Ninject.Modules;
+using Ninject.Parameters;
 
 namespace DbTextEditor.Shared.DependencyInjection
 {
@@ -20,6 +21,16 @@ namespace DbTextEditor.Shared.DependencyInjection
         public static T Resolve<T>(string name)
         {
             return _ninjectKernel.Get<T>(name);
+        }
+
+        public static T Resolve<T>(params IParameter[] parameters)
+        {
+            return _ninjectKernel.Get<T>(parameters);
+        }
+
+        public static T Resolve<T>(string name, params IParameter[] parameters)
+        {
+            return _ninjectKernel.Get<T>(name, parameters);
         }
     }
 }

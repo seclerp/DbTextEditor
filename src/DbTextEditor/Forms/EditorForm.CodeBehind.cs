@@ -6,21 +6,25 @@ using System.IO;
 using System.Text.RegularExpressions;
 using System.Windows.Forms;
 using DbTextEditor.Shared;
+using DbTextEditor.Shared.DataBinding;
 using DbTextEditor.ViewModel;
+using DbTextEditor.ViewModel.Interfaces;
 using ScintillaNET;
 
 namespace DbTextEditor.Forms
 {
     public partial class EditorForm
     {
-        private readonly EditorViewModel _editorViewModel;
+        private readonly IEditorViewModel _editorViewModel;
 
         private string _currentFileName;
         private ObservableProperty<string> _path;
         private ObservableProperty<string> _text;
         private ObservableProperty<bool> _isModified;
 
-        public EditorForm(EditorViewModel editorViewModel)
+        private int _maxLineNumberCharLength;
+
+        public EditorForm(IEditorViewModel editorViewModel)
         {
             _editorViewModel = editorViewModel;
             Load += OnLoad;
@@ -36,6 +40,8 @@ namespace DbTextEditor.Forms
             TextEditor.TextChanged += OnViewTextChanged;
             TextEditor.InsertCheck += OnTextEditorInsertCheck;
             TextEditor.CharAdded += OnTextEditorCharAdded;
+
+            RecalculateLineNumbersWidth();
         }
 
         private void OnClosing(object sender, CancelEventArgs e)
@@ -91,7 +97,6 @@ namespace DbTextEditor.Forms
 
         private void InitializeTextEditor()
         {
-            TextEditor.Margins[0].Width = 16;
             TextEditor.IndentationGuides = IndentView.LookBoth;
 
             TextEditor.SetProperty("fold", "1");
@@ -136,6 +141,19 @@ namespace DbTextEditor.Forms
         private void OnViewTextChanged(object sender, EventArgs e)
         {
             _editorViewModel.TextChangedCommand.Execute(TextEditor.Text);
+            RecalculateLineNumbersWidth();
+        }
+
+        private void RecalculateLineNumbersWidth()
+        {
+            var currentMaxLineNumberCharLength = TextEditor.Lines.Count.ToString().Length;
+            if (currentMaxLineNumberCharLength == _maxLineNumberCharLength)
+                return;
+
+            const int padding = 2;
+            TextEditor.Margins[0].Width = TextEditor.TextWidth(Style.LineNumber, new string('9',
+                                              currentMaxLineNumberCharLength + 1)) + padding;
+            _maxLineNumberCharLength = currentMaxLineNumberCharLength;
         }
 
         private void RefreshContents(string newValue)

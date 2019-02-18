@@ -2,7 +2,7 @@ using System;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 
-namespace DbTextEditor.Shared
+namespace DbTextEditor.Shared.DataBinding
 {
     public static class Bindings
     {

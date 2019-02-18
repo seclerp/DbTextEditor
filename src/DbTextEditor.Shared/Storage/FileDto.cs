@@ -1,4 +1,4 @@
-namespace DbTextEditor.Shared
+namespace DbTextEditor.Shared.Storage
 {
     public class FileDto
     {

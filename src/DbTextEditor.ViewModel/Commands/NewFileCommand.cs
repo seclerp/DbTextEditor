@@ -1,21 +1,28 @@
 ﻿using DbTextEditor.Shared;
+using DbTextEditor.Shared.DataBinding;
+using DbTextEditor.Shared.DataBinding.Interfaces;
+using DbTextEditor.Shared.DependencyInjection;
+using DbTextEditor.ViewModel.Interfaces;
+using Ninject.Parameters;
 
 namespace DbTextEditor.ViewModel.Commands
 {
     public class NewFileCommand : ICommand
     {
-        private readonly MainViewModel _mainViewModel;
-        public NewFileCommand(MainViewModel mainViewModel)
+        private readonly IMainViewModel _mainViewModel;
+        public NewFileCommand(IMainViewModel mainViewModel)
         {
             _mainViewModel = mainViewModel;
         }
 
         public void Execute()
         {
-            var newEditorViewModel = new EditorViewModel(_mainViewModel);
+            var newEditorViewModel = CompositionRoot.Resolve<IEditorViewModel>(
+                new ConstructorArgument("mainViewModel", _mainViewModel));
+
             _mainViewModel.OpenedEditors.Add(newEditorViewModel);
 
-            CommandLogger.LogExecuted<MainViewModel, NewFileCommand>();
+            CommandLogger.LogExecuted<IMainViewModel, NewFileCommand>();
         }
     }
 }

@@ -1,12 +1,16 @@
 using DbTextEditor.Shared;
+using DbTextEditor.Shared.DataBinding;
+using DbTextEditor.Shared.DataBinding.Interfaces;
+using DbTextEditor.Shared.Storage;
+using DbTextEditor.ViewModel.Interfaces;
 
 namespace DbTextEditor.ViewModel.Commands
 {
     public class SaveFileCommand : ICommand<string>
     {
-        private readonly EditorViewModel _editorViewModel;
+        private readonly IEditorViewModel _editorViewModel;
 
-        public SaveFileCommand(EditorViewModel editorViewModel)
+        public SaveFileCommand(IEditorViewModel editorViewModel)
         {
             _editorViewModel = editorViewModel;
         }
@@ -15,7 +19,7 @@ namespace DbTextEditor.ViewModel.Commands
         {
             if (_editorViewModel.IsNewFile)
             {
-                _editorViewModel.InitializeModel(path);
+                _editorViewModel.InitializeModel(path, StorageType.Local); // TODO
             }
 
             var model = new FileDto
@@ -24,10 +28,10 @@ namespace DbTextEditor.ViewModel.Commands
                 Contents = _editorViewModel.Contents
             };
 
-            _editorViewModel.Model.Save(model);
+            _editorViewModel.Save(model);
             _editorViewModel.IsModified.Value = false;
 
-            CommandLogger.LogExecuted<MainViewModel, SaveFileCommand>();
+            CommandLogger.LogExecuted<IEditorViewModel, SaveFileCommand>();
         }
     }
 }

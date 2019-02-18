@@ -1,6 +1,9 @@
 using DbTextEditor.Model.DAL;
+using DbTextEditor.Model.DAL.Interfaces;
 using DbTextEditor.Model.Entities;
+using DbTextEditor.Model.Infrastructure.Interfaces;
 using DbTextEditor.Shared;
+using DbTextEditor.Shared.Storage;
 
 namespace DbTextEditor.Model.Infrastructure
 {

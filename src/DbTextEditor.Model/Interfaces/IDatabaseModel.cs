@@ -1,7 +1,7 @@
 using System.Collections.ObjectModel;
 using DbTextEditor.Model.Entities;
 
-namespace DbTextEditor.Model
+namespace DbTextEditor.Model.Interfaces
 {
     public interface IDatabaseModel
     {

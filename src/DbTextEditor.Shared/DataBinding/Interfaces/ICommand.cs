@@ -1,4 +1,4 @@
-﻿namespace DbTextEditor.Shared
+﻿namespace DbTextEditor.Shared.DataBinding.Interfaces
 {
     public interface ICommand
     {

@@ -1,8 +1,13 @@
 using System.Configuration;
 using DbTextEditor.Model;
 using DbTextEditor.Model.DAL;
+using DbTextEditor.Model.DAL.Interfaces;
 using DbTextEditor.Model.Infrastructure;
+using DbTextEditor.Model.Infrastructure.Interfaces;
+using DbTextEditor.Model.Interfaces;
 using DbTextEditor.ViewModel;
+using DbTextEditor.ViewModel.Interfaces;
+using Ninject;
 using Ninject.Modules;
 
 namespace DbTextEditor.Configuration
@@ -38,6 +43,12 @@ namespace DbTextEditor.Configuration
         {
             Bind<IDatabaseViewViewModel>()
                 .To<DatabaseViewViewModel>();
+
+            Bind<IEditorViewModel>()
+                .To<EditorViewModel>();
+
+            Bind<IMainViewModel>()
+                .To<MainViewModel>();
         }
 
         private void RegisterModel()
@@ -45,6 +56,14 @@ namespace DbTextEditor.Configuration
             Bind<IDatabaseModel>()
                 .To<DatabaseModel>()
                 .InSingletonScope();
+
+            Bind<FileModel>()
+                .ToSelf()
+                .Named("LocalFileModel");
+
+            Bind<FileModel>()
+                .ToSelf()
+                .Named("DbFileModel");
         }
     }
 }

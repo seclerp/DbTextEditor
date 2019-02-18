@@ -1,6 +1,6 @@
-using DbTextEditor.Shared;
+using DbTextEditor.Shared.Storage;
 
-namespace DbTextEditor.Model.Infrastructure
+namespace DbTextEditor.Model.Infrastructure.Interfaces
 {
     public interface IFilesAdapter
     {

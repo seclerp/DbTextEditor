@@ -1,6 +1,6 @@
 using System;
 
-namespace DbTextEditor.Shared
+namespace DbTextEditor.Shared.DataBinding
 {
     public class ObservableProperty<T>
     {

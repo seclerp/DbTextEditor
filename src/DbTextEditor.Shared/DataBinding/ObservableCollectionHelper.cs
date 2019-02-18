@@ -1,6 +1,6 @@
 using System.Collections.ObjectModel;
 
-namespace DbTextEditor.Shared
+namespace DbTextEditor.Shared.DataBinding
 {
     public class ObservableCollectionHelper
     {

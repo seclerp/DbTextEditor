@@ -1,15 +1,16 @@
 ﻿using System;
 using System.Collections.Specialized;
 using System.Windows.Forms;
-using DbTextEditor.Shared;
-using DbTextEditor.ViewModel;
+using DbTextEditor.Shared.DataBinding;
+using DbTextEditor.Shared.DependencyInjection;
+using DbTextEditor.ViewModel.Interfaces;
 using WeifenLuo.WinFormsUI.Docking;
 
 namespace DbTextEditor.Forms
 {
     public partial class MainForm
     {
-        private readonly MainViewModel _mainViewModel;
+        private readonly IMainViewModel _mainViewModel;
         private EditorForm _selectedEditor;
 
         public static SaveFileDialog SaveDialog { get; private set; }
@@ -17,7 +18,7 @@ namespace DbTextEditor.Forms
 
         public MainForm()
         {
-            _mainViewModel = new MainViewModel();
+            _mainViewModel = CompositionRoot.Resolve<IMainViewModel>();
             InitializeComponent();
             SetupDialogs();
             InitializeMainMenu();
@@ -102,7 +103,7 @@ namespace DbTextEditor.Forms
             {
                 foreach (var newItem in args.NewItems)
                 {
-                    var editorForm = new EditorForm(newItem as EditorViewModel);
+                    var editorForm = new EditorForm(newItem as IEditorViewModel);
                     editorForm.Show(MainDockPanel, DockState.Document);
                 }
             }

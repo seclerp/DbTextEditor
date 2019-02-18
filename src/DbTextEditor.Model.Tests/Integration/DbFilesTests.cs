@@ -2,6 +2,7 @@ using System.Data.SQLite;
 using System.Text;
 using Dapper;
 using DbTextEditor.Model.DAL;
+using DbTextEditor.Model.DAL.Interfaces;
 using DbTextEditor.Model.Entities;
 using NUnit.Framework;
 

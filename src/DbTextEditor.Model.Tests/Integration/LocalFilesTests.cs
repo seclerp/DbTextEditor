@@ -1,5 +1,6 @@
 using System.IO;
 using DbTextEditor.Model.DAL;
+using DbTextEditor.Model.DAL.Interfaces;
 using DbTextEditor.Model.Entities;
 using NUnit.Framework;
 

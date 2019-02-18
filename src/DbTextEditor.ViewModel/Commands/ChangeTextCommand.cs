@@ -1,12 +1,15 @@
 ﻿using DbTextEditor.Shared;
+using DbTextEditor.Shared.DataBinding;
+using DbTextEditor.Shared.DataBinding.Interfaces;
+using DbTextEditor.ViewModel.Interfaces;
 
 namespace DbTextEditor.ViewModel.Commands
 {
     public class ChangeTextCommand : ICommand<string>
     {
-        private readonly EditorViewModel _editorViewModel;
+        private readonly IEditorViewModel _editorViewModel;
 
-        public ChangeTextCommand(EditorViewModel editorViewModel)
+        public ChangeTextCommand(IEditorViewModel editorViewModel)
         {
             _editorViewModel = editorViewModel;
         }
@@ -20,7 +23,7 @@ namespace DbTextEditor.ViewModel.Commands
 
             _editorViewModel.Contents.Value = newText;
 
-            CommandLogger.LogExecuted<EditorViewModel, ChangeTextCommand>(newText);
+            CommandLogger.LogExecuted<IEditorViewModel, ChangeTextCommand>(newText);
         }
     }
 }
