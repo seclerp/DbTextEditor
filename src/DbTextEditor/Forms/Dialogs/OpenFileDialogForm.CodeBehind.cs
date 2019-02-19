@@ -58,7 +58,12 @@ namespace DbTextEditor.Forms.Dialogs
             }
             else if (DatabaseRadioButton.Checked)
             {
-                var fileName = FromFileBox.Text.Trim();
+                if (FromDatabaseListView.SelectedItems.Count == 0)
+                {
+                    return;
+                }
+
+                var fileName = FromDatabaseListView.SelectedItems[0].Text;
                 if (!_dbFilesAdapter.Exists(fileName))
                 {
                     MessageBox.Show($"File '{fileName}' not exists in database");
