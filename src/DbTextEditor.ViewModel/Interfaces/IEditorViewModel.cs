@@ -9,7 +9,8 @@ namespace DbTextEditor.ViewModel.Interfaces
         IMainViewModel MainViewModel { get; }
         bool IsNewFile { get; }
         ICommand<string> TextChangedCommand { get; }
-        ICommand<string> SaveFileCommand { get; }
+        ICommand SaveFileCommand { get; }
+        ICommand<string> SaveFileAsCommand { get; }
         ObservableProperty<string> Path { get; }
         ObservableProperty<string> Contents { get; }
         ObservableProperty<bool> IsModified { get; }

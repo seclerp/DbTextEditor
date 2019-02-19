@@ -31,7 +31,6 @@
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
             this.MainDockPanel = new WeifenLuo.WinFormsUI.Docking.DockPanel();
             this.MainMenu = new System.Windows.Forms.MenuStrip();
-            this.MainOpenFileDialog = new System.Windows.Forms.OpenFileDialog();
             this.MainSaveFileDialog = new System.Windows.Forms.SaveFileDialog();
             this.SuspendLayout();
             // 
@@ -52,11 +51,6 @@
             this.MainMenu.Size = new System.Drawing.Size(1024, 24);
             this.MainMenu.TabIndex = 2;
             this.MainMenu.Text = "menuStrip1";
-            // 
-            // MainOpenFileDialog
-            // 
-            this.MainOpenFileDialog.FileName = "";
-            this.MainOpenFileDialog.Multiselect = true;
             // 
             // MainForm
             // 
@@ -79,7 +73,6 @@
         #endregion
         internal System.Windows.Forms.MenuStrip MainMenu;
         internal WeifenLuo.WinFormsUI.Docking.DockPanel MainDockPanel;
-        internal System.Windows.Forms.OpenFileDialog MainOpenFileDialog;
         internal System.Windows.Forms.SaveFileDialog MainSaveFileDialog;
     }
 }

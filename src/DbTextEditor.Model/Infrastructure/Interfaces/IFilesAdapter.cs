@@ -6,5 +6,6 @@ namespace DbTextEditor.Model.Infrastructure.Interfaces
     {
         void Save(FileDto model);
         FileDto Open(string fileName);
+        bool Exists(string fileName);
     }
 }

@@ -1,19 +1,11 @@
-using DbTextEditor.Model.Infrastructure;
 using DbTextEditor.Model.Infrastructure.Interfaces;
-using DbTextEditor.Shared;
+using DbTextEditor.Model.Interfaces;
 using DbTextEditor.Shared.DataBinding;
 using DbTextEditor.Shared.DependencyInjection;
 using DbTextEditor.Shared.Storage;
 
 namespace DbTextEditor.Model
 {
-    public interface IFileModel
-    {
-        ObservableProperty<string> Path { get; }
-        ObservableProperty<string> Contents { get; }
-        void Save(FileDto model);
-    }
-
     public class FileModel : IFileModel
     {
         public ObservableProperty<string> Path { get; } = new ObservableProperty<string>();

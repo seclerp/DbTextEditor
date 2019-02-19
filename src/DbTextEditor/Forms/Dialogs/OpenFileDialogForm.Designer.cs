@@ -1,4 +1,4 @@
-﻿namespace DbTextEditor.DIalogs
+﻿namespace DbTextEditor.Forms.Dialogs
 {
     partial class OpenFileDialogForm
     {
@@ -28,36 +28,37 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.radioButton1 = new System.Windows.Forms.RadioButton();
-            this.radioButton2 = new System.Windows.Forms.RadioButton();
+            this.LocalRadioButton = new System.Windows.Forms.RadioButton();
+            this.DatabaseRadioButton = new System.Windows.Forms.RadioButton();
             this.FromFileBox = new System.Windows.Forms.TextBox();
             this.ChoosePathButton = new System.Windows.Forms.Button();
             this.FromDatabaseListView = new System.Windows.Forms.ListView();
             this.FileNameColumn = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.OpenButton = new System.Windows.Forms.Button();
             this.CancelButton = new System.Windows.Forms.Button();
+            this.OpenDialog = new System.Windows.Forms.OpenFileDialog();
             this.SuspendLayout();
             // 
-            // radioButton1
+            // LocalRadioButton
             // 
-            this.radioButton1.AutoSize = true;
-            this.radioButton1.Checked = true;
-            this.radioButton1.Location = new System.Drawing.Point(12, 12);
-            this.radioButton1.Name = "radioButton1";
-            this.radioButton1.Size = new System.Drawing.Size(116, 21);
-            this.radioButton1.TabIndex = 0;
-            this.radioButton1.Text = "From local file";
-            this.radioButton1.UseVisualStyleBackColor = true;
+            this.LocalRadioButton.AutoSize = true;
+            this.LocalRadioButton.Checked = true;
+            this.LocalRadioButton.Location = new System.Drawing.Point(12, 12);
+            this.LocalRadioButton.Name = "LocalRadioButton";
+            this.LocalRadioButton.Size = new System.Drawing.Size(116, 21);
+            this.LocalRadioButton.TabIndex = 0;
+            this.LocalRadioButton.Text = "From local file";
+            this.LocalRadioButton.UseVisualStyleBackColor = true;
             // 
-            // radioButton2
+            // DatabaseRadioButton
             // 
-            this.radioButton2.AutoSize = true;
-            this.radioButton2.Location = new System.Drawing.Point(12, 67);
-            this.radioButton2.Name = "radioButton2";
-            this.radioButton2.Size = new System.Drawing.Size(124, 21);
-            this.radioButton2.TabIndex = 1;
-            this.radioButton2.Text = "From database";
-            this.radioButton2.UseVisualStyleBackColor = true;
+            this.DatabaseRadioButton.AutoSize = true;
+            this.DatabaseRadioButton.Location = new System.Drawing.Point(12, 67);
+            this.DatabaseRadioButton.Name = "DatabaseRadioButton";
+            this.DatabaseRadioButton.Size = new System.Drawing.Size(124, 21);
+            this.DatabaseRadioButton.TabIndex = 1;
+            this.DatabaseRadioButton.Text = "From database";
+            this.DatabaseRadioButton.UseVisualStyleBackColor = true;
             // 
             // FromFileBox
             // 
@@ -91,7 +92,7 @@
             this.FromDatabaseListView.Size = new System.Drawing.Size(348, 231);
             this.FromDatabaseListView.TabIndex = 4;
             this.FromDatabaseListView.UseCompatibleStateImageBehavior = false;
-            this.FromDatabaseListView.View = System.Windows.Forms.View.SmallIcon;
+            this.FromDatabaseListView.View = System.Windows.Forms.View.List;
             // 
             // OpenButton
             // 
@@ -115,6 +116,10 @@
             this.CancelButton.Text = "Cancel";
             this.CancelButton.UseVisualStyleBackColor = true;
             // 
+            // OpenDialog
+            // 
+            this.OpenDialog.FileName = "";
+            // 
             // OpenFileDialogForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
@@ -125,8 +130,8 @@
             this.Controls.Add(this.FromDatabaseListView);
             this.Controls.Add(this.ChoosePathButton);
             this.Controls.Add(this.FromFileBox);
-            this.Controls.Add(this.radioButton2);
-            this.Controls.Add(this.radioButton1);
+            this.Controls.Add(this.DatabaseRadioButton);
+            this.Controls.Add(this.LocalRadioButton);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
             this.MaximizeBox = false;
             this.MinimizeBox = false;
@@ -140,13 +145,14 @@
 
         #endregion
 
-        private System.Windows.Forms.RadioButton radioButton1;
-        private System.Windows.Forms.RadioButton radioButton2;
+        private System.Windows.Forms.RadioButton LocalRadioButton;
+        private System.Windows.Forms.RadioButton DatabaseRadioButton;
         private System.Windows.Forms.TextBox FromFileBox;
         private System.Windows.Forms.Button ChoosePathButton;
         private System.Windows.Forms.ListView FromDatabaseListView;
         private System.Windows.Forms.ColumnHeader FileNameColumn;
         private System.Windows.Forms.Button OpenButton;
         private System.Windows.Forms.Button CancelButton;
+        private System.Windows.Forms.OpenFileDialog OpenDialog;
     }
 }

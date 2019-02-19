@@ -7,7 +7,6 @@ using DbTextEditor.Model.Infrastructure.Interfaces;
 using DbTextEditor.Model.Interfaces;
 using DbTextEditor.ViewModel;
 using DbTextEditor.ViewModel.Interfaces;
-using Ninject;
 using Ninject.Modules;
 
 namespace DbTextEditor.Configuration
@@ -57,13 +56,8 @@ namespace DbTextEditor.Configuration
                 .To<DatabaseModel>()
                 .InSingletonScope();
 
-            Bind<FileModel>()
-                .ToSelf()
-                .Named("LocalFileModel");
-
-            Bind<FileModel>()
-                .ToSelf()
-                .Named("DbFileModel");
+            Bind<IFileModel>()
+                .To<FileModel>();
         }
     }
 }

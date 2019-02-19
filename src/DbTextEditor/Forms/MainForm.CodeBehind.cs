@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Specialized;
+using System.ComponentModel;
 using System.Windows.Forms;
+using DbTextEditor.Forms.Dialogs;
 using DbTextEditor.Shared.DataBinding;
 using DbTextEditor.Shared.DependencyInjection;
 using DbTextEditor.ViewModel.Interfaces;
@@ -11,31 +13,34 @@ namespace DbTextEditor.Forms
     public partial class MainForm
     {
         private readonly IMainViewModel _mainViewModel;
-        private EditorForm _selectedEditor;
-
-        public static SaveFileDialog SaveDialog { get; private set; }
-        public static OpenFileDialog OpenDialog { get; private set; }
+        private readonly ObservableProperty<IEditorViewModel> _selectedEditor = new ObservableProperty<IEditorViewModel>();
 
         public MainForm()
         {
             _mainViewModel = CompositionRoot.Resolve<IMainViewModel>();
             InitializeComponent();
-            SetupDialogs();
             InitializeMainMenu();
             InitializeDockPanel();
             InitializeDatabaseView();
             MakeBindings();
         }
 
+        // This is to ignore saving through hotkeys on main form 
+        protected override bool ProcessCmdKey(ref Message msg, Keys keyData)
+        {
+            switch (keyData)
+            {
+                case Keys.Control | Keys.Alt | Keys.S:
+                case Keys.Control | Keys.S:
+                    return true;
+            }
+            return base.ProcessCmdKey(ref msg, keyData);
+        }
+
         private void MakeBindings()
         {
             Bindings.ForCollection(_mainViewModel.OpenedEditors, OnOpenedEditorCollectionChanged);
-        }
-
-        private void SetupDialogs()
-        {
-            SaveDialog = MainSaveFileDialog;
-            OpenDialog = MainOpenFileDialog;
+            Bindings.BindObservables(_mainViewModel.SelectedEditor, _selectedEditor);
         }
 
         private void InitializeMainMenu()
@@ -55,6 +60,10 @@ namespace DbTextEditor.Forms
             saveFile.ShortcutKeys = Keys.Control | Keys.S;
             saveFile.Click += OnSaveFileClick;
 
+            var saveFileAs = new ToolStripMenuItem("Save as");
+            saveFileAs.ShortcutKeys = Keys.Control | Keys.Alt | Keys.S;
+            saveFileAs.Click += OnSaveFileAsClick;
+
             var saveAll = new ToolStripMenuItem("Save all");
             saveAll.ShortcutKeys = Keys.Control | Keys.Shift | Keys.S;
 
@@ -63,7 +72,7 @@ namespace DbTextEditor.Forms
 
             file.DropDownItems.AddRange(new ToolStripItem[]
             {
-                newFile, openFile, saveFile, saveAll,
+                newFile, openFile, saveFile, saveFileAs, saveAll,
                 new ToolStripSeparator(),
                 exit
             });
@@ -88,13 +97,21 @@ namespace DbTextEditor.Forms
 
         private void InitializeDockPanel()
         {
-            MainDockPanel.ActiveDocumentChanged +=
-                (sender, args) => _selectedEditor = MainDockPanel.ActiveDocument as EditorForm;
+            MainDockPanel.ActiveContentChanged +=
+                OnActiveContentChanged;
         }
 
         private void InitializeDatabaseView()
         {
             new DatabaseViewForm().Show(MainDockPanel, DockState.DockLeft);
+        }
+
+        private void OnActiveContentChanged(object sender, EventArgs args)
+        {
+            if (MainDockPanel.ActiveContent is EditorForm editorForm)
+            {
+                _selectedEditor.Value = editorForm.EditorViewModel;
+            }
         }
 
         private void OnOpenedEditorCollectionChanged(NotifyCollectionChangedEventArgs args)
@@ -103,7 +120,10 @@ namespace DbTextEditor.Forms
             {
                 foreach (var newItem in args.NewItems)
                 {
-                    var editorForm = new EditorForm(newItem as IEditorViewModel);
+                    var editorForm = new EditorForm(newItem as IEditorViewModel, this);
+                    editorForm.Closing += OnEditorFormClosing;
+                    editorForm.DockAreas = DockAreas.Document | DockAreas.DockTop | DockAreas.DockBottom |
+                                           DockAreas.DockLeft | DockAreas.DockRight;
                     editorForm.Show(MainDockPanel, DockState.Document);
                 }
             }
@@ -116,20 +136,78 @@ namespace DbTextEditor.Forms
 
         private void OnOpenFileClick(object sender, EventArgs args)
         {
-            if (MainOpenFileDialog.ShowDialog() != DialogResult.OK)
+            var openDialog = new OpenFileDialogForm();
+            if (openDialog.ShowDialog() != DialogResult.OK)
             {
                 return;
             }
 
-            foreach (var fileName in MainOpenFileDialog.FileNames)
-            {
-                _mainViewModel.OpenFileCommand.Execute(fileName);
-            }
+            _mainViewModel.OpenFileCommand.Execute(openDialog.FileName);
         }
 
         private void OnSaveFileClick(object sender, EventArgs args)
         {
-            _selectedEditor?.Save();
+            Save(_selectedEditor.Value);
+        }
+
+        private void OnSaveFileAsClick(object sender, EventArgs e)
+        {
+            SaveAs(_selectedEditor.Value);
+        }
+
+        private void OnEditorFormClosing(object sender, CancelEventArgs e)
+        {
+            var editorForm = sender as EditorForm;
+            if (editorForm?.IsModified)
+            {
+                var saveQuestionResult = MessageBox.Show(
+                    $"Do you want to save changed made in '{editorForm.Path}'?",
+                    "Save changes?", MessageBoxButtons.YesNoCancel);
+                if (saveQuestionResult == DialogResult.Yes)
+                {
+                    if (!Save(editorForm.EditorViewModel))
+                    {
+                        e.Cancel = true;
+                    }
+                }
+                else if (saveQuestionResult == DialogResult.Cancel)
+                {
+                    e.Cancel = true;
+                }
+            }
+        }
+
+        public bool Save(IEditorViewModel editor)
+        {
+            if (editor is null)
+            {
+                return false;
+            }
+
+            if (editor.IsNewFile)
+            {
+                if (MainSaveFileDialog.ShowDialog() == DialogResult.OK)
+                {
+                    editor.SaveFileAsCommand.Execute(MainSaveFileDialog.FileName);
+                    return true;
+                }
+                return false;
+            }
+            editor.SaveFileCommand.Execute();
+            return true;
+        }
+
+        public void SaveAs(IEditorViewModel editor)
+        {
+            if (editor is null)
+            {
+                return;
+            }
+
+            if (MainSaveFileDialog.ShowDialog() == DialogResult.OK)
+            {
+                editor.SaveFileAsCommand.Execute(MainSaveFileDialog.FileName);
+            }
         }
     }
 }

@@ -1,11 +1,12 @@
-﻿using DbTextEditor.Model;
-using DbTextEditor.Shared;
+﻿using DbTextEditor.Model.Interfaces;
 using DbTextEditor.Shared.DataBinding;
 using DbTextEditor.Shared.DataBinding.Interfaces;
+using DbTextEditor.Shared.DependencyInjection;
 using DbTextEditor.Shared.Exceptions;
 using DbTextEditor.Shared.Storage;
 using DbTextEditor.ViewModel.Commands;
 using DbTextEditor.ViewModel.Interfaces;
+using Ninject.Parameters;
 
 namespace DbTextEditor.ViewModel
 {
@@ -16,7 +17,8 @@ namespace DbTextEditor.ViewModel
         public bool IsNewFile => Model is null;
 
         public ICommand<string> TextChangedCommand { get; }
-        public ICommand<string> SaveFileCommand { get; }
+        public ICommand SaveFileCommand { get; }
+        public ICommand<string> SaveFileAsCommand { get; }
 
         public ObservableProperty<string> Path { get; } = new ObservableProperty<string>(null);
         public ObservableProperty<string> Contents { get; } = new ObservableProperty<string>(string.Empty);
@@ -27,6 +29,7 @@ namespace DbTextEditor.ViewModel
             MainViewModel = mainViewModel;
             TextChangedCommand = new ChangeTextCommand(this);
             SaveFileCommand = new SaveFileCommand(this);
+            SaveFileAsCommand = new SaveFileAsCommand(this);
         }
 
         public void InitializeModel(string filePath, StorageType storageType)
@@ -36,7 +39,10 @@ namespace DbTextEditor.ViewModel
                 throw new BusinessLogicException("Model is already set for this view model");
             }
 
-            Model = new FileModel(filePath, storageType);
+            Model = CompositionRoot.Resolve<IFileModel>(
+                new ConstructorArgument("fileName", filePath),
+                new ConstructorArgument("storageType", storageType)
+            );
             MakeBindings();
         }
 

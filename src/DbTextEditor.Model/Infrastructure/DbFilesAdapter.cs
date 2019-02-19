@@ -35,6 +35,8 @@ namespace DbTextEditor.Model.Infrastructure
                 ? Map(_repository.Get(fileName))
                 : default(FileDto);
 
+        public bool Exists(string fileName) => _repository.Exists(fileName);
+
         private static DbFileEntity Map(FileDto model) =>
             new DbFileEntity
             {

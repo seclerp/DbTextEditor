@@ -15,20 +15,21 @@ namespace DbTextEditor.Forms
 {
     public partial class EditorForm
     {
-        private readonly IEditorViewModel _editorViewModel;
+        internal readonly IEditorViewModel EditorViewModel;
+        private readonly MainForm _mainForm;
 
         private string _currentFileName;
-        private ObservableProperty<string> _path;
-        private ObservableProperty<string> _text;
-        private ObservableProperty<bool> _isModified;
+        internal ObservableProperty<string> Path;
+        internal ObservableProperty<string> Contents;
+        internal ObservableProperty<bool> IsModified;
 
         private int _maxLineNumberCharLength;
 
-        public EditorForm(IEditorViewModel editorViewModel)
+        public EditorForm(IEditorViewModel editorViewModel, MainForm mainForm)
         {
-            _editorViewModel = editorViewModel;
+            EditorViewModel = editorViewModel;
+            _mainForm = mainForm;
             Load += OnLoad;
-            Closing += OnClosing;
             InitializeComponent();
         }
 
@@ -44,55 +45,32 @@ namespace DbTextEditor.Forms
             RecalculateLineNumbersWidth();
         }
 
-        private void OnClosing(object sender, CancelEventArgs e)
+        protected override bool ProcessCmdKey(ref Message msg, Keys keyData)
         {
-            if (_isModified.Value)
+            switch (keyData)
             {
-                var saveQuestionResult = MessageBox.Show(
-                    $"Do you want to save changed made in '{_currentFileName}'?", 
-                    "Save changes?", MessageBoxButtons.YesNoCancel);
-                if (saveQuestionResult == DialogResult.Yes)
-                {
-                    if (!Save())
-                    {
-                        e.Cancel = true;
-                    }
-                }
-                else if (saveQuestionResult == DialogResult.Cancel)
-                {
-                    e.Cancel = true;
-                }
-            }
-        }
-
-        public bool Save()
-        {
-            var path = _editorViewModel.Path.Value;
-            if (_editorViewModel.IsNewFile)
-            {
-                if (MainForm.SaveDialog.ShowDialog() != DialogResult.OK)
-                {
-                    return false;
-                }
-
-                path = MainForm.SaveDialog.FileName;
+                case Keys.Control | Keys.Alt | Keys.S:
+                    _mainForm.SaveAs(EditorViewModel);
+                    break;
+                case Keys.Control | Keys.S:
+                    _mainForm.Save(EditorViewModel);
+                    break;
             }
 
-            _editorViewModel.SaveFileCommand.Execute(path);
-            return true;
+            return base.ProcessCmdKey(ref msg, keyData);
         }
 
         private void MakeBindings()
         {
-            _path = new ObservableProperty<string>(_editorViewModel.Path, OnPathChanged);
-            _text = new ObservableProperty<string>(_editorViewModel.Contents, OnContentsChanged);
-            _isModified = new ObservableProperty<bool>(_editorViewModel.IsModified, OnIsModifiedChanged);
+            Path = new ObservableProperty<string>(EditorViewModel.Path, OnPathChanged);
+            Contents = new ObservableProperty<string>(EditorViewModel.Contents, OnContentsChanged);
+            IsModified = new ObservableProperty<bool>(EditorViewModel.IsModified, OnIsModifiedChanged);
 
-            Bindings.BindObservables(_editorViewModel.Path, _path);
-            Bindings.BindObservables(_editorViewModel.Contents, _text);
-            Bindings.BindObservables(_editorViewModel.IsModified, _isModified);
+            Bindings.BindObservables(EditorViewModel.Path, Path);
+            Bindings.BindObservables(EditorViewModel.Contents, Contents);
+            Bindings.BindObservables(EditorViewModel.IsModified, IsModified);
 
-            RefreshTabTitle(_path.Value);
+            RefreshTabTitle(Path.Value);
         }
 
         private void InitializeTextEditor()
@@ -135,12 +113,12 @@ namespace DbTextEditor.Forms
 
         private void OnIsModifiedChanged(bool _)
         {
-            RefreshTabTitle(_editorViewModel.Path);
+            RefreshTabTitle(EditorViewModel.Path);
         }
 
         private void OnViewTextChanged(object sender, EventArgs e)
         {
-            _editorViewModel.TextChangedCommand.Execute(TextEditor.Text);
+            EditorViewModel.TextChangedCommand.Execute(TextEditor.Text);
             RecalculateLineNumbersWidth();
         }
 
@@ -166,13 +144,13 @@ namespace DbTextEditor.Forms
 
         private void RefreshTabTitle(string newPath)
         {
-            var newFileName = newPath is null ? "[new file]" : Path.GetFileName(_editorViewModel.Path);
-            var modifiedStar = _editorViewModel.IsModified ? "*" : string.Empty;
+            var newFileName = newPath is null ? "[new file]" : System.IO.Path.GetFileName(EditorViewModel.Path);
+            var modifiedStar = EditorViewModel.IsModified ? "*" : string.Empty;
             if (newFileName != _currentFileName)
             {
                 _currentFileName = newFileName;
 
-                SetupHighlighting(Path.GetExtension(newFileName));
+                SetupHighlighting(System.IO.Path.GetExtension(newFileName));
             }
 
             TabText = _currentFileName + modifiedStar;
