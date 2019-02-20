@@ -31,7 +31,6 @@
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
             this.MainDockPanel = new WeifenLuo.WinFormsUI.Docking.DockPanel();
             this.MainMenu = new System.Windows.Forms.MenuStrip();
-            this.MainSaveFileDialog = new System.Windows.Forms.SaveFileDialog();
             this.SuspendLayout();
             // 
             // MainDockPanel
@@ -73,7 +72,6 @@
         #endregion
         internal System.Windows.Forms.MenuStrip MainMenu;
         internal WeifenLuo.WinFormsUI.Docking.DockPanel MainDockPanel;
-        internal System.Windows.Forms.SaveFileDialog MainSaveFileDialog;
     }
 }
 

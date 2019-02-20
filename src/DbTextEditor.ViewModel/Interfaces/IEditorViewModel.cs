@@ -10,11 +10,12 @@ namespace DbTextEditor.ViewModel.Interfaces
         bool IsNewFile { get; }
         ICommand<string> TextChangedCommand { get; }
         ICommand SaveFileCommand { get; }
-        ICommand<string> SaveFileAsCommand { get; }
+        ICommand<(string Path, StorageType StorageType)> SaveFileAsCommand { get; }
         ObservableProperty<string> Path { get; }
         ObservableProperty<string> Contents { get; }
         ObservableProperty<bool> IsModified { get; }
-        void InitializeModel(string filePath, StorageType storageType);
-        void Save(FileDto file);
+        ObservableProperty<StorageType> Storage { get; }
+        void Open(string fileName, StorageType storageType);
+        void Save(string newFileName, StorageType storageType);
     }
 }

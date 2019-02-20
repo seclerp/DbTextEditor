@@ -9,35 +9,31 @@ namespace DbTextEditor.Model
     public class FileModel : IFileModel
     {
         public ObservableProperty<string> Path { get; } = new ObservableProperty<string>();
-        public ObservableProperty<string> Contents { get; } = new ObservableProperty<string>();
+        public ObservableProperty<string> Contents { get; } = new ObservableProperty<string>(string.Empty);
+        public ObservableProperty<StorageType> Storage { get; } = new ObservableProperty<StorageType>(StorageType.Local);
 
-        private readonly StorageType _storageType;
+        private StorageType _storageType;
         private IFilesAdapter _adapter;
-        public FileModel(string fileName, StorageType storageType)
-        {
-            _storageType = storageType;
-            ChangeStorage(storageType);
 
+        public void Save(FileDto dto, StorageType storageType)
+        {
+            ChangeStorage(storageType);
+            _adapter.Save(dto);
+            Path.Value = dto.FileName;
+            Contents.Value = dto.Contents;
+        }
+
+        public void Open(string fileName, StorageType storageType)
+        {
+            ChangeStorage(storageType);
             Path.Value = fileName;
             Contents.Value = _adapter.Open(Path.Value).Contents;
         }
 
-        public void Save(FileDto model)
-        {
-            _adapter.Save(model);
-
-            Path.Value = model.FileName;
-            Contents.Value = model.Contents;
-        }
-
         private void ChangeStorage(StorageType storageType)
         {
-            if (_storageType == storageType && _adapter != null)
-            {
-                return;
-            }
-
-            switch (storageType)
+            Storage.Value = storageType;
+            switch (Storage.Value)
             {
                 case StorageType.Local:
                     _adapter = CompositionRoot.Resolve<IFilesAdapter>("LocalFilesAdapter");

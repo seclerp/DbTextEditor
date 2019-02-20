@@ -36,8 +36,8 @@ namespace DbTextEditor.Model.DAL
             {
                 connection.Open();
                 connection.Execute($"INSERT INTO {FilesTable} " +
-                                        "(Name, Revision, Contents) VALUES " +
-                                        "(@Name, @Revision, @Contents); " +
+                                        "(Name, Contents) VALUES " +
+                                        "(@Name, @Contents); " +
                                         "SELECT last_insert_rowid();", entity);
             }
         }
@@ -56,15 +56,11 @@ namespace DbTextEditor.Model.DAL
         public void Update(DbFileEntity entity)
         {
             var currentEntity = Get(entity.Name);
-            if (currentEntity != null && entity.Revision < currentEntity.Revision)
-            {
-                throw new BusinessLogicException("You trying to modify old version of this file in DB");
-            }
             using (var connection = GetConnection())
             {
                 connection.Open();
                 connection.Execute($"UPDATE {FilesTable} SET " +
-                                        "Name = @Name, Revision = @Revision + 1, Contents = @Contents " +
+                                        "Name = @Name, Contents = @Contents " +
                                         "WHERE Name = @Name", entity);
             }
         }

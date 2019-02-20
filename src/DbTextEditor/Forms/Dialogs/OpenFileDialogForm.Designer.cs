@@ -93,6 +93,7 @@
             this.FromDatabaseListView.TabIndex = 4;
             this.FromDatabaseListView.UseCompatibleStateImageBehavior = false;
             this.FromDatabaseListView.View = System.Windows.Forms.View.List;
+            this.FromDatabaseListView.MultiSelect = false;
             // 
             // OpenButton
             // 

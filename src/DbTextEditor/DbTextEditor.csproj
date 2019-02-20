@@ -110,19 +110,13 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Configuration\ApplicationModule.cs" />
-    <Compile Include="Forms\DatabaseViewForm.CodeBehind.cs">
-      <DependentUpon>DatabaseViewForm.cs</DependentUpon>
-      <SubType>Form</SubType>
-    </Compile>
     <Compile Include="Forms\DatabaseViewForm.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Forms\DatabaseViewForm.Designer.cs">
       <DependentUpon>DatabaseViewForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="Forms\Dialogs\OpenFileDialogForm.CodeBehind.cs">
-      <DependentUpon>OpenFileDialogForm.cs</DependentUpon>
-    </Compile>
+    <Compile Include="Forms\Dialogs\FileDialogForm.cs" />
     <Compile Include="Forms\Dialogs\OpenFileDialogForm.cs" />
     <Compile Include="Forms\Dialogs\OpenFileDialogForm.Designer.cs">
       <DependentUpon>OpenFileDialogForm.cs</DependentUpon>
@@ -137,19 +131,11 @@
     <Compile Include="Forms\EditorForm.Designer.cs">
       <DependentUpon>EditorForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="Forms\EditorForm.CodeBehind.cs">
-      <DependentUpon>EditorForm.cs</DependentUpon>
-      <SubType>Form</SubType>
-    </Compile>
     <Compile Include="Forms\MainForm.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Forms\MainForm.Designer.cs">
       <DependentUpon>MainForm.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Forms\MainForm.CodeBehind.cs">
-      <DependentUpon>MainForm.cs</DependentUpon>
-      <SubType>Form</SubType>
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

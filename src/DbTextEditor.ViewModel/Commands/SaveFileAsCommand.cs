@@ -6,7 +6,7 @@ using DbTextEditor.ViewModel.Interfaces;
 
 namespace DbTextEditor.ViewModel.Commands
 {
-    public class SaveFileAsCommand : ICommand<string>
+    public class SaveFileAsCommand : ICommand<(string Path, StorageType StorageType)>
     {
         private readonly IEditorViewModel _editorViewModel;
 
@@ -15,20 +15,9 @@ namespace DbTextEditor.ViewModel.Commands
             _editorViewModel = editorViewModel;
         }
 
-        public void Execute(string path)
+        public void Execute((string Path, StorageType StorageType) param)
         {
-            if (_editorViewModel.IsNewFile)
-            {
-                _editorViewModel.InitializeModel(path, StorageType.Local); // TODO
-            }
-
-            var model = new FileDto
-            {
-                FileName = path,
-                Contents = _editorViewModel.Contents
-            };
-
-            _editorViewModel.Save(model);
+            _editorViewModel.Save(param.Path, param.StorageType);
             _editorViewModel.IsModified.Value = false;
 
             CommandLogger.LogExecuted<IEditorViewModel, SaveFileAsCommand>();

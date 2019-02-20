@@ -29,13 +29,13 @@ namespace DbTextEditor.Shared.DataBinding
 
         public ObservableProperty(T value) : this()
         {
-            Value = value;
+            _value = value;
         }
 
         public ObservableProperty(T value, Action<T> afterSet)
         {
             _afterSet = afterSet;
-            Value = value;
+            _value = value;
         }
 
         protected virtual void OnValueChanged(T newValue)

@@ -1,60 +1,64 @@
-﻿using DbTextEditor.Model.Interfaces;
+﻿using System;
+using DbTextEditor.Model.Interfaces;
 using DbTextEditor.Shared.DataBinding;
 using DbTextEditor.Shared.DataBinding.Interfaces;
 using DbTextEditor.Shared.DependencyInjection;
-using DbTextEditor.Shared.Exceptions;
 using DbTextEditor.Shared.Storage;
 using DbTextEditor.ViewModel.Commands;
 using DbTextEditor.ViewModel.Interfaces;
-using Ninject.Parameters;
 
 namespace DbTextEditor.ViewModel
 {
     public class EditorViewModel : IEditorViewModel
     {
         public IMainViewModel MainViewModel { get; }
-        internal IFileModel Model { get; private set; }
-        public bool IsNewFile => Model is null;
+        internal Lazy<IFileModel> Model { get; private set; }
+        public bool IsNewFile => !Model.IsValueCreated;
 
         public ICommand<string> TextChangedCommand { get; }
         public ICommand SaveFileCommand { get; }
-        public ICommand<string> SaveFileAsCommand { get; }
+        public ICommand<(string Path, StorageType StorageType)> SaveFileAsCommand { get; }
 
         public ObservableProperty<string> Path { get; } = new ObservableProperty<string>(null);
         public ObservableProperty<string> Contents { get; } = new ObservableProperty<string>(string.Empty);
         public ObservableProperty<bool> IsModified { get; } = new ObservableProperty<bool>(false);
+        public ObservableProperty<StorageType> Storage { get; } = new ObservableProperty<StorageType>(StorageType.Local);
 
         public EditorViewModel(IMainViewModel mainViewModel)
         {
+            Model = new Lazy<IFileModel>(CreateModel);
             MainViewModel = mainViewModel;
             TextChangedCommand = new ChangeTextCommand(this);
             SaveFileCommand = new SaveFileCommand(this);
             SaveFileAsCommand = new SaveFileAsCommand(this);
         }
 
-        public void InitializeModel(string filePath, StorageType storageType)
+        public void Open(string fileName, StorageType storageType)
         {
-            if (Model != null)
+            Model.Value.Open(fileName, storageType);
+        }
+
+        public void Save(string newFileName, StorageType storageType)
+        {
+            Model.Value.Save(new FileDto
             {
-                throw new BusinessLogicException("Model is already set for this view model");
-            }
-
-            Model = CompositionRoot.Resolve<IFileModel>(
-                new ConstructorArgument("fileName", filePath),
-                new ConstructorArgument("storageType", storageType)
-            );
-            MakeBindings();
+                FileName = newFileName,
+                Contents = Contents
+            }, storageType);
         }
 
-        private void MakeBindings()
+        private IFileModel CreateModel()
         {
-            Bindings.BindObservables(Model.Path, Path, BindingMode.OneWay);
-            Bindings.BindObservables(Model.Contents, Contents, BindingMode.OneWay);
+            var model = CompositionRoot.Resolve<IFileModel>();
+            MakeBindings(model);
+            return model;
         }
 
-        public void Save(FileDto file)
+        private void MakeBindings(IFileModel model)
         {
-            Model.Save(file);
+            Bindings.BindObservables(model.Path, Path, BindingMode.OneWay);
+            Bindings.BindObservables(model.Contents, Contents, BindingMode.OneWay);
+            Bindings.BindObservables(model.Storage, Storage, BindingMode.OneWay);
         }
     }
 }

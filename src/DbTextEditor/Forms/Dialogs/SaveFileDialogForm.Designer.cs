@@ -1,4 +1,4 @@
-﻿namespace DbTextEditor.DIalogs
+﻿namespace DbTextEditor.Forms.Dialogs
 {
     partial class SaveFileDialogForm
     {
@@ -28,56 +28,57 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.radioButton1 = new System.Windows.Forms.RadioButton();
-            this.radioButton2 = new System.Windows.Forms.RadioButton();
-            this.textBox1 = new System.Windows.Forms.TextBox();
-            this.button1 = new System.Windows.Forms.Button();
+            this.ToLocalRadioButton = new System.Windows.Forms.RadioButton();
+            this.ToDbRadioButton = new System.Windows.Forms.RadioButton();
+            this.ToLocalFileName = new System.Windows.Forms.TextBox();
+            this.ToLocalChoosePathButton = new System.Windows.Forms.Button();
             this.SaveButton = new System.Windows.Forms.Button();
             this.CancelButton = new System.Windows.Forms.Button();
-            this.textBox2 = new System.Windows.Forms.TextBox();
+            this.ToDbFileName = new System.Windows.Forms.TextBox();
+            this.SaveDialog = new System.Windows.Forms.SaveFileDialog();
             this.SuspendLayout();
             // 
-            // radioButton1
+            // ToLocalRadioButton
             // 
-            this.radioButton1.AutoSize = true;
-            this.radioButton1.Checked = true;
-            this.radioButton1.Location = new System.Drawing.Point(12, 12);
-            this.radioButton1.Name = "radioButton1";
-            this.radioButton1.Size = new System.Drawing.Size(101, 21);
-            this.radioButton1.TabIndex = 0;
-            this.radioButton1.TabStop = true;
-            this.radioButton1.Text = "To local file";
-            this.radioButton1.UseVisualStyleBackColor = true;
+            this.ToLocalRadioButton.AutoSize = true;
+            this.ToLocalRadioButton.Checked = true;
+            this.ToLocalRadioButton.Location = new System.Drawing.Point(12, 12);
+            this.ToLocalRadioButton.Name = "ToLocalRadioButton";
+            this.ToLocalRadioButton.Size = new System.Drawing.Size(101, 21);
+            this.ToLocalRadioButton.TabIndex = 0;
+            this.ToLocalRadioButton.TabStop = true;
+            this.ToLocalRadioButton.Text = "To local file";
+            this.ToLocalRadioButton.UseVisualStyleBackColor = true;
             // 
-            // radioButton2
+            // ToDbRadioButton
             // 
-            this.radioButton2.AutoSize = true;
-            this.radioButton2.Location = new System.Drawing.Point(12, 67);
-            this.radioButton2.Name = "radioButton2";
-            this.radioButton2.Size = new System.Drawing.Size(109, 21);
-            this.radioButton2.TabIndex = 1;
-            this.radioButton2.Text = "To database";
-            this.radioButton2.UseVisualStyleBackColor = true;
+            this.ToDbRadioButton.AutoSize = true;
+            this.ToDbRadioButton.Location = new System.Drawing.Point(12, 67);
+            this.ToDbRadioButton.Name = "ToDbRadioButton";
+            this.ToDbRadioButton.Size = new System.Drawing.Size(109, 21);
+            this.ToDbRadioButton.TabIndex = 1;
+            this.ToDbRadioButton.Text = "To database";
+            this.ToDbRadioButton.UseVisualStyleBackColor = true;
             // 
-            // textBox1
+            // ToLocalFileName
             // 
-            this.textBox1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            this.ToLocalFileName.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.textBox1.Location = new System.Drawing.Point(12, 39);
-            this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(304, 22);
-            this.textBox1.TabIndex = 2;
+            this.ToLocalFileName.Location = new System.Drawing.Point(12, 39);
+            this.ToLocalFileName.Name = "ToLocalFileName";
+            this.ToLocalFileName.Size = new System.Drawing.Size(304, 22);
+            this.ToLocalFileName.TabIndex = 2;
             // 
-            // button1
+            // ToLocalChoosePathButton
             // 
-            this.button1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.button1.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.button1.Location = new System.Drawing.Point(322, 39);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(44, 23);
-            this.button1.TabIndex = 3;
-            this.button1.Text = "...";
-            this.button1.UseVisualStyleBackColor = true;
+            this.ToLocalChoosePathButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.ToLocalChoosePathButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.ToLocalChoosePathButton.Location = new System.Drawing.Point(322, 39);
+            this.ToLocalChoosePathButton.Name = "ToLocalChoosePathButton";
+            this.ToLocalChoosePathButton.Size = new System.Drawing.Size(44, 23);
+            this.ToLocalChoosePathButton.TabIndex = 3;
+            this.ToLocalChoosePathButton.Text = "...";
+            this.ToLocalChoosePathButton.UseVisualStyleBackColor = true;
             // 
             // SaveButton
             // 
@@ -101,27 +102,31 @@
             this.CancelButton.Text = "Cancel";
             this.CancelButton.UseVisualStyleBackColor = true;
             // 
-            // textBox2
+            // ToDbBox
             // 
-            this.textBox2.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            this.ToDbFileName.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.textBox2.Location = new System.Drawing.Point(12, 94);
-            this.textBox2.Name = "textBox2";
-            this.textBox2.Size = new System.Drawing.Size(354, 22);
-            this.textBox2.TabIndex = 7;
+            this.ToDbFileName.Location = new System.Drawing.Point(12, 94);
+            this.ToDbFileName.Name = "ToDbFileName";
+            this.ToDbFileName.Size = new System.Drawing.Size(354, 22);
+            this.ToDbFileName.TabIndex = 7;
+            // 
+            // SaveDialog
+            // 
+            this.SaveDialog.FileName = "";
             // 
             // SaveFileDialogForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(372, 174);
-            this.Controls.Add(this.textBox2);
+            this.Controls.Add(this.ToDbFileName);
             this.Controls.Add(this.CancelButton);
             this.Controls.Add(this.SaveButton);
-            this.Controls.Add(this.button1);
-            this.Controls.Add(this.textBox1);
-            this.Controls.Add(this.radioButton2);
-            this.Controls.Add(this.radioButton1);
+            this.Controls.Add(this.ToLocalChoosePathButton);
+            this.Controls.Add(this.ToLocalFileName);
+            this.Controls.Add(this.ToDbRadioButton);
+            this.Controls.Add(this.ToLocalRadioButton);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
             this.MaximizeBox = false;
             this.MinimizeBox = false;
@@ -135,12 +140,13 @@
 
         #endregion
 
-        private System.Windows.Forms.RadioButton radioButton1;
-        private System.Windows.Forms.RadioButton radioButton2;
-        private System.Windows.Forms.TextBox textBox1;
-        private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.RadioButton ToLocalRadioButton;
+        private System.Windows.Forms.RadioButton ToDbRadioButton;
+        private System.Windows.Forms.TextBox ToLocalFileName;
+        private System.Windows.Forms.Button ToLocalChoosePathButton;
         private System.Windows.Forms.Button SaveButton;
         private System.Windows.Forms.Button CancelButton;
-        private System.Windows.Forms.TextBox textBox2;
+        private System.Windows.Forms.TextBox ToDbFileName;
+        private System.Windows.Forms.SaveFileDialog SaveDialog;
     }
 }

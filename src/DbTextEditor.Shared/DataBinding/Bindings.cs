@@ -17,7 +17,8 @@ namespace DbTextEditor.Shared.DataBinding
             property.ValueChanged += (sender, newValue) => action(newValue);
         }
 
-        public static void BindObservables<TValue>(ObservableProperty<TValue> from, ObservableProperty<TValue> to, BindingMode mode = BindingMode.TwoWay)
+        public static void BindObservables<TValue>(ObservableProperty<TValue> from, ObservableProperty<TValue> to,
+            BindingMode mode = BindingMode.TwoWay, bool setValue = true)
         {
             from.ValueChanged += (sender, newValue) => to.Value = newValue;
             if (mode == BindingMode.TwoWay)
@@ -25,7 +26,10 @@ namespace DbTextEditor.Shared.DataBinding
                 to.ValueChanged += (sender, newValue) => from.Value = newValue;
             }
 
-            to.Value = from.Value;
+            if (setValue)
+            {
+                to.Value = from.Value;
+            }
         }
 
         public static void BindCollections<TValue>(ObservableCollection<TValue> from, ObservableCollection<TValue> to)

@@ -7,6 +7,8 @@ namespace DbTextEditor.Model.Interfaces
   {
     ObservableProperty<string> Path { get; }
     ObservableProperty<string> Contents { get; }
-    void Save(FileDto model);
+    ObservableProperty<StorageType> Storage { get; }
+    void Save(FileDto dto, StorageType storageType);
+    void Open(string fileName, StorageType storageType);
   }
 }

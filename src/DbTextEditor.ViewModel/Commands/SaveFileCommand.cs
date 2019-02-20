@@ -18,18 +18,7 @@ namespace DbTextEditor.ViewModel.Commands
 
         public void Execute()
         {
-            if (_editorViewModel.IsNewFile)
-            {
-                throw new BusinessLogicException("Can't save new file without path");
-            }
-
-            var model = new FileDto
-            {
-                FileName = _editorViewModel.Path,
-                Contents = _editorViewModel.Contents
-            };
-
-            _editorViewModel.Save(model);
+            _editorViewModel.Save(_editorViewModel.Path, _editorViewModel.Storage);
             _editorViewModel.IsModified.Value = false;
 
             CommandLogger.LogExecuted<IEditorViewModel, SaveFileCommand>();

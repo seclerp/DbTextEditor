@@ -8,7 +8,7 @@ using Ninject.Parameters;
 
 namespace DbTextEditor.ViewModel.Commands
 {
-    public class OpenFileCommand : ICommand<string>
+    public class OpenFileCommand : ICommand<(string Path, StorageType StorageType)>
     {
         private readonly IMainViewModel _mainViewModel;
 
@@ -17,12 +17,12 @@ namespace DbTextEditor.ViewModel.Commands
             _mainViewModel = mainViewModel;
         }
 
-        public void Execute(string path)
+        public void Execute((string Path, StorageType StorageType) param)
         {
             var editorViewModel = CompositionRoot.Resolve<IEditorViewModel>(
                 new ConstructorArgument("mainViewModel", _mainViewModel));
 
-            editorViewModel.InitializeModel(path, StorageType.Local); // TODO
+            editorViewModel.Open(param.Path, param.StorageType);
             _mainViewModel.OpenedEditors.Add(editorViewModel);
 
             CommandLogger.LogExecuted<IMainViewModel, OpenFileCommand>();
