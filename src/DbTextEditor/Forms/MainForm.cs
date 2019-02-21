@@ -84,15 +84,39 @@ namespace DbTextEditor.Forms
 
             var import = new ToolStripMenuItem("Import file");
             import.ShortcutKeys = Keys.Control | Keys.Shift | Keys.I;
+            import.Click += OnImportClick;
 
             var export = new ToolStripMenuItem("Export file");
             export.ShortcutKeys = Keys.Control | Keys.Shift | Keys.E;
+            export.Click += OnExportClick;
 
             database.DropDownItems.AddRange(new ToolStripItem[]
             {
                 import, export
             });
             MainMenu.Items.Add(database);
+        }
+
+        private void OnImportClick(object sender, EventArgs e)
+        {
+            using (var dialog = new ImportFileForm())
+            {
+                if (dialog.ShowDialog() == DialogResult.OK)
+                {
+                    _mainViewModel.ImportCommand.Execute((dialog.FromFileName, dialog.ToFileName));
+                }
+            }
+        }
+
+        private void OnExportClick(object sender, EventArgs e)
+        {
+            using (var dialog = new ExportFileForm())
+            {
+                if (dialog.ShowDialog() == DialogResult.OK)
+                {
+                    _mainViewModel.ExportCommand.Execute((dialog.FromFileName, dialog.ToFileName));
+                }
+            }
         }
 
         private void InitializeDockPanel()

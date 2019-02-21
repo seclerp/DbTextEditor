@@ -1,5 +1,4 @@
-﻿using DbTextEditor.Shared;
-using DbTextEditor.Shared.DataBinding;
+﻿using DbTextEditor.Shared.DataBinding;
 using DbTextEditor.Shared.DataBinding.Interfaces;
 using DbTextEditor.Shared.DependencyInjection;
 using DbTextEditor.ViewModel.Interfaces;

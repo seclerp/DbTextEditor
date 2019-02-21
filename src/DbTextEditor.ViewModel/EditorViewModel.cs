@@ -12,8 +12,8 @@ namespace DbTextEditor.ViewModel
     public class EditorViewModel : IEditorViewModel
     {
         public IMainViewModel MainViewModel { get; }
-        internal Lazy<IFileModel> Model { get; private set; }
-        public bool IsNewFile => !Model.IsValueCreated;
+        internal IFileModel Model { get; private set; }
+        public bool IsNewFile => Path.Value is null;
 
         public ICommand<string> TextChangedCommand { get; }
         public ICommand SaveFileCommand { get; }
@@ -26,7 +26,7 @@ namespace DbTextEditor.ViewModel
 
         public EditorViewModel(IMainViewModel mainViewModel)
         {
-            Model = new Lazy<IFileModel>(CreateModel);
+            Model = CreateModel();
             MainViewModel = mainViewModel;
             TextChangedCommand = new ChangeTextCommand(this);
             SaveFileCommand = new SaveFileCommand(this);
@@ -35,12 +35,12 @@ namespace DbTextEditor.ViewModel
 
         public void Open(string fileName, StorageType storageType)
         {
-            Model.Value.Open(fileName, storageType);
+            Model.Open(fileName, storageType);
         }
 
         public void Save(string newFileName, StorageType storageType)
         {
-            Model.Value.Save(new FileDto
+            Model.Save(new FileDto
             {
                 FileName = newFileName,
                 Contents = Contents

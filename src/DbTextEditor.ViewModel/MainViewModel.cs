@@ -12,7 +12,8 @@ namespace DbTextEditor.ViewModel
     {
         public ICommand NewFileCommand { get; }
         public ICommand<(string Path, StorageType StorageType)> OpenFileCommand { get; }
-        public ICommand<IEditorViewModel> ChangeSelectedEditorCommand { get; }
+        public ICommand<(string From, string To)> ExportCommand{ get; }
+        public ICommand<(string From, string To)> ImportCommand{ get; }
         public ObservableCollection<IEditorViewModel> OpenedEditors { get; } = new ObservableCollection<IEditorViewModel>();
         public ObservableProperty<IEditorViewModel> SelectedEditor { get; } = new ObservableProperty<IEditorViewModel>();
 
@@ -20,7 +21,8 @@ namespace DbTextEditor.ViewModel
         {
             NewFileCommand = new NewFileCommand(this);
             OpenFileCommand = new OpenFileCommand(this);
-            ChangeSelectedEditorCommand = new ChangeSelectedEditorCommand(this);
+            ExportCommand = new ExportCommand(this);
+            ImportCommand = new ImportCommand(this);
         }
     }
 }
