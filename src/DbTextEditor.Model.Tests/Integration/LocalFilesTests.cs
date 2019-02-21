@@ -21,13 +21,9 @@ namespace DbTextEditor.Model.Tests.Integration
         public void SetUp()
         {
             if (Directory.Exists(TempDirectory))
-            {
                 Directory.Delete(TempDirectory, true);
-            }
             else
-            {
                 Directory.CreateDirectory(TempDirectory);
-            }
         }
 
         [OneTimeTearDown]
@@ -49,6 +45,21 @@ namespace DbTextEditor.Model.Tests.Integration
             });
 
             Assert.AreEqual(File.ReadAllText(filePath), expectedContents);
+        }
+
+        [Test]
+        public void Delete_Success_SimpleFile4()
+        {
+            var filePath = Path.Combine(TempDirectory, "SimpleFile4.txt");
+
+            _localFilesRepository.Create(new LocalFileEntity
+            {
+                Path = filePath,
+                Contents = "SimpleContents"
+            });
+            _localFilesRepository.Delete(filePath);
+
+            Assert.IsFalse(File.Exists(filePath));
         }
 
         [Test]
@@ -85,21 +96,6 @@ namespace DbTextEditor.Model.Tests.Integration
             });
 
             Assert.AreEqual(File.ReadAllText(filePath), expectedContents);
-        }
-
-        [Test]
-        public void Delete_Success_SimpleFile4()
-        {
-            var filePath = Path.Combine(TempDirectory, "SimpleFile4.txt");
-
-            _localFilesRepository.Create(new LocalFileEntity
-            {
-                Path = filePath,
-                Contents = "SimpleContents"
-            });
-            _localFilesRepository.Delete(filePath);
-
-            Assert.IsFalse(File.Exists(filePath));
         }
     }
 }

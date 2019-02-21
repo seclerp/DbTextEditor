@@ -6,10 +6,7 @@ namespace DbTextEditor.Shared.DataBinding
     {
         public static void ClearObservableCollection<T>(ObservableCollection<T> collection)
         {
-            while (collection.Count > 0)
-            {
-                collection.RemoveAt(0);
-            }
+            while (collection.Count > 0) collection.RemoveAt(0);
         }
     }
 }

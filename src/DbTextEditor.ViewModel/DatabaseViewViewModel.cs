@@ -1,7 +1,5 @@
 using System.Collections.ObjectModel;
-using DbTextEditor.Model;
 using DbTextEditor.Model.Interfaces;
-using DbTextEditor.Shared;
 using DbTextEditor.Shared.DataBinding;
 using DbTextEditor.Shared.DataBinding.Interfaces;
 using DbTextEditor.ViewModel.Commands;
@@ -11,10 +9,7 @@ namespace DbTextEditor.ViewModel
 {
     public class DatabaseViewViewModel : IDatabaseViewViewModel
     {
-        public ObservableCollection<string> DbFileNames { get; }
-        public ICommand RefreshCommand { get; }
-
-        private IDatabaseModel _model;
+        private readonly IDatabaseModel _model;
 
         public DatabaseViewViewModel(IDatabaseModel databaseModel)
         {
@@ -25,14 +20,17 @@ namespace DbTextEditor.ViewModel
             MakeBindings();
         }
 
-        private void MakeBindings()
-        {
-            Bindings.BindCollections(_model.Files, DbFileNames, entity => entity.Name);
-        }
+        public ObservableCollection<string> DbFileNames { get; }
+        public ICommand RefreshCommand { get; }
 
         public void Refresh()
         {
             _model.Refresh();
+        }
+
+        private void MakeBindings()
+        {
+            Bindings.BindCollections(_model.Files, DbFileNames, entity => entity.Name);
         }
     }
 }

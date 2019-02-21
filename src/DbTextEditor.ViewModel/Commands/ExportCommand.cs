@@ -9,9 +9,9 @@ namespace DbTextEditor.ViewModel.Commands
 {
     public class ExportCommand : ICommand<(string From, string To)>
     {
-        private readonly IMainViewModel _mainViewModel;
-        private readonly IFilesAdapter _localFilesAdapter;
         private readonly IFilesAdapter _dbFilesAdapter;
+        private readonly IFilesAdapter _localFilesAdapter;
+        private readonly IMainViewModel _mainViewModel;
 
         public ExportCommand(IMainViewModel mainViewModel)
         {
@@ -23,10 +23,7 @@ namespace DbTextEditor.ViewModel.Commands
         public void Execute((string From, string To) payload)
         {
             var fromModel = _dbFilesAdapter.Open(payload.From);
-            if (fromModel is null)
-            {
-                throw new BusinessLogicException($"File '{payload.From}' not found in database");
-            }
+            if (fromModel is null) throw new BusinessLogicException($"File '{payload.From}' not found in database");
             _localFilesAdapter.Save(new FileDto
             {
                 FileName = payload.To,

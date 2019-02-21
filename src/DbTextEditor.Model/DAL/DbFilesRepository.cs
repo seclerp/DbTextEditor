@@ -25,8 +25,9 @@ namespace DbTextEditor.Model.DAL
             {
                 connection.Open();
                 return connection
-                    .Query<long>($"SELECT EXISTS(SELECT 1 FROM {FilesTable} WHERE Name = @Name);", new { Name = name })
-                    .First() == 1;
+                           .Query<long>($"SELECT EXISTS(SELECT 1 FROM {FilesTable} WHERE Name = @Name);",
+                               new {Name = name})
+                           .First() == 1;
             }
         }
 
@@ -36,9 +37,9 @@ namespace DbTextEditor.Model.DAL
             {
                 connection.Open();
                 connection.Execute($"INSERT INTO {FilesTable} " +
-                                        "(Name, Contents) VALUES " +
-                                        "(@Name, @Contents); " +
-                                        "SELECT last_insert_rowid();", entity);
+                                   "(Name, Contents) VALUES " +
+                                   "(@Name, @Contents); " +
+                                   "SELECT last_insert_rowid();", entity);
             }
         }
 
@@ -48,7 +49,7 @@ namespace DbTextEditor.Model.DAL
             {
                 connection.Open();
                 return connection
-                    .Query<DbFileEntity>($"SELECT * FROM {FilesTable} WHERE Name = @Name;", new { Name = name })
+                    .Query<DbFileEntity>($"SELECT * FROM {FilesTable} WHERE Name = @Name;", new {Name = name})
                     .FirstOrDefault();
             }
         }
@@ -60,21 +61,18 @@ namespace DbTextEditor.Model.DAL
             {
                 connection.Open();
                 connection.Execute($"UPDATE {FilesTable} SET " +
-                                        "Name = @Name, Contents = @Contents " +
-                                        "WHERE Name = @Name", entity);
+                                   "Name = @Name, Contents = @Contents " +
+                                   "WHERE Name = @Name", entity);
             }
         }
 
         public void Delete(string name)
         {
-            if (!Exists(name))
-            {
-                throw new BusinessLogicException($"File with name '{name}' doesn't exists in DB");
-            }
+            if (!Exists(name)) throw new BusinessLogicException($"File with name '{name}' doesn't exists in DB");
             using (var connection = GetConnection())
             {
                 connection.Open();
-                connection.Execute($"DELETE FROM {FilesTable} WHERE Name = @Name;", new { Name = name });
+                connection.Execute($"DELETE FROM {FilesTable} WHERE Name = @Name;", new {Name = name});
             }
         }
 

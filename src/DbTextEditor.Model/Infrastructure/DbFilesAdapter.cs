@@ -1,9 +1,7 @@
 using System.Text;
-using DbTextEditor.Model.DAL;
 using DbTextEditor.Model.DAL.Interfaces;
 using DbTextEditor.Model.Entities;
 using DbTextEditor.Model.Infrastructure.Interfaces;
-using DbTextEditor.Shared;
 using DbTextEditor.Shared.Storage;
 
 namespace DbTextEditor.Model.Infrastructure
@@ -21,34 +19,39 @@ namespace DbTextEditor.Model.Infrastructure
         {
             var entity = Map(model);
             if (!_repository.Exists(entity.Name))
-            {
                 _repository.Create(entity);
-            }
             else
-            {
                 _repository.Update(entity);
-            }
         }
 
-        public FileDto Open(string fileName) =>
-            _repository.Exists(fileName)
+        public FileDto Open(string fileName)
+        {
+            return _repository.Exists(fileName)
                 ? Map(_repository.Get(fileName))
                 : default(FileDto);
+        }
 
-        public bool Exists(string fileName) => _repository.Exists(fileName);
+        public bool Exists(string fileName)
+        {
+            return _repository.Exists(fileName);
+        }
 
-        private static DbFileEntity Map(FileDto model) =>
-            new DbFileEntity
+        private static DbFileEntity Map(FileDto model)
+        {
+            return new DbFileEntity
             {
                 Name = model.FileName,
                 Contents = Encoding.UTF8.GetBytes(model.Contents)
             };
+        }
 
-        private static FileDto Map(DbFileEntity entity) =>
-            new FileDto
+        private static FileDto Map(DbFileEntity entity)
+        {
+            return new FileDto
             {
                 FileName = entity.Name,
                 Contents = Encoding.UTF8.GetString(entity.Contents)
             };
+        }
     }
 }

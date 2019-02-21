@@ -8,12 +8,10 @@ namespace DbTextEditor.Forms.Dialogs
 {
     public class FileDialogForm : Form
     {
-        public string FileName { get; protected set; } = "";
-        public StorageType StorageType { get; protected set; }
-
-        protected IFilesAdapter LocalFilesAdapter;
         protected IFilesAdapter DbFilesAdapter;
         protected IDatabaseViewViewModel DbViewModel;
+
+        protected IFilesAdapter LocalFilesAdapter;
 
         public FileDialogForm()
         {
@@ -21,5 +19,8 @@ namespace DbTextEditor.Forms.Dialogs
             DbFilesAdapter = CompositionRoot.Resolve<IFilesAdapter>("DbFilesAdapter");
             DbViewModel = CompositionRoot.Resolve<IDatabaseViewViewModel>();
         }
+
+        public string FileName { get; protected set; } = "";
+        public StorageType StorageType { get; protected set; }
     }
 }

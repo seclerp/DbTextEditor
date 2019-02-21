@@ -9,6 +9,7 @@ namespace DbTextEditor.ViewModel.Commands
     public class NewFileCommand : ICommand
     {
         private readonly IMainViewModel _mainViewModel;
+
         public NewFileCommand(IMainViewModel mainViewModel)
         {
             _mainViewModel = mainViewModel;

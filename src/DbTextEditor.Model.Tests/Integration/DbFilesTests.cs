@@ -61,6 +61,20 @@ namespace DbTextEditor.Model.Tests.Integration
         }
 
         [Test]
+        public void Delete_Success_SimpleFile4()
+        {
+            var fileName = "SimpleFile1.txt";
+            _repository.Create(new DbFileEntity
+            {
+                Name = fileName,
+                Contents = Encoding.UTF8.GetBytes("SimpleContents")
+            });
+            _repository.Delete(fileName);
+
+            Assert.IsFalse(_repository.Exists(fileName));
+        }
+
+        [Test]
         public void Get_Success_SimpleFile2()
         {
             var expectedContents = "SimpleContents";
@@ -94,20 +108,6 @@ namespace DbTextEditor.Model.Tests.Integration
             });
 
             Assert.AreEqual(Encoding.UTF8.GetString(_repository.Get(fileName).Contents), expectedContents);
-        }
-
-        [Test]
-        public void Delete_Success_SimpleFile4()
-        {
-            var fileName = "SimpleFile1.txt";
-            _repository.Create(new DbFileEntity
-            {
-                Name = fileName,
-                Contents = Encoding.UTF8.GetBytes("SimpleContents")
-            });
-            _repository.Delete(fileName);
-
-            Assert.IsFalse(_repository.Exists(fileName));
         }
     }
 }

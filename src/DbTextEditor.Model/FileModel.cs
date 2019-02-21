@@ -8,12 +8,14 @@ namespace DbTextEditor.Model
 {
     public class FileModel : IFileModel
     {
-        public ObservableProperty<string> Path { get; } = new ObservableProperty<string>();
-        public ObservableProperty<string> Contents { get; } = new ObservableProperty<string>(string.Empty);
-        public ObservableProperty<StorageType> Storage { get; } = new ObservableProperty<StorageType>(StorageType.Local);
+        private IFilesAdapter _adapter;
 
         private StorageType _storageType;
-        private IFilesAdapter _adapter;
+        public ObservableProperty<string> Path { get; } = new ObservableProperty<string>();
+        public ObservableProperty<string> Contents { get; } = new ObservableProperty<string>(string.Empty);
+
+        public ObservableProperty<StorageType> Storage { get; } =
+            new ObservableProperty<StorageType>(StorageType.Local);
 
         public void Save(FileDto dto, StorageType storageType)
         {

@@ -1,5 +1,4 @@
-﻿using System;
-using DbTextEditor.Model.Interfaces;
+﻿using DbTextEditor.Model.Interfaces;
 using DbTextEditor.Shared.DataBinding;
 using DbTextEditor.Shared.DataBinding.Interfaces;
 using DbTextEditor.Shared.DependencyInjection;
@@ -11,8 +10,17 @@ namespace DbTextEditor.ViewModel
 {
     public class EditorViewModel : IEditorViewModel
     {
+        public EditorViewModel(IMainViewModel mainViewModel)
+        {
+            Model = CreateModel();
+            MainViewModel = mainViewModel;
+            TextChangedCommand = new ChangeTextCommand(this);
+            SaveFileCommand = new SaveFileCommand(this);
+            SaveFileAsCommand = new SaveFileAsCommand(this);
+        }
+
+        internal IFileModel Model { get; }
         public IMainViewModel MainViewModel { get; }
-        internal IFileModel Model { get; private set; }
         public bool IsNewFile => Path.Value is null;
 
         public ICommand<string> TextChangedCommand { get; }
@@ -22,16 +30,9 @@ namespace DbTextEditor.ViewModel
         public ObservableProperty<string> Path { get; } = new ObservableProperty<string>(null);
         public ObservableProperty<string> Contents { get; } = new ObservableProperty<string>(string.Empty);
         public ObservableProperty<bool> IsModified { get; } = new ObservableProperty<bool>(false);
-        public ObservableProperty<StorageType> Storage { get; } = new ObservableProperty<StorageType>(StorageType.Local);
 
-        public EditorViewModel(IMainViewModel mainViewModel)
-        {
-            Model = CreateModel();
-            MainViewModel = mainViewModel;
-            TextChangedCommand = new ChangeTextCommand(this);
-            SaveFileCommand = new SaveFileCommand(this);
-            SaveFileAsCommand = new SaveFileAsCommand(this);
-        }
+        public ObservableProperty<StorageType> Storage { get; } =
+            new ObservableProperty<StorageType>(StorageType.Local);
 
         public void Open(string fileName, StorageType storageType)
         {

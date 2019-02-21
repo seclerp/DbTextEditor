@@ -4,8 +4,23 @@ namespace DbTextEditor.Shared.DataBinding
 {
     public class ObservableProperty<T>
     {
+        private readonly Action<T> _afterSet;
         private T _value;
-        private Action<T> _afterSet;
+
+        public ObservableProperty()
+        {
+        }
+
+        public ObservableProperty(T value) : this()
+        {
+            _value = value;
+        }
+
+        public ObservableProperty(T value, Action<T> afterSet)
+        {
+            _afterSet = afterSet;
+            _value = value;
+        }
 
         public T Value
         {
@@ -22,21 +37,6 @@ namespace DbTextEditor.Shared.DataBinding
         }
 
         public event EventHandler<T> ValueChanged;
-
-        public ObservableProperty()
-        {
-        }
-
-        public ObservableProperty(T value) : this()
-        {
-            _value = value;
-        }
-
-        public ObservableProperty(T value, Action<T> afterSet)
-        {
-            _afterSet = afterSet;
-            _value = value;
-        }
 
         protected virtual void OnValueChanged(T newValue)
         {

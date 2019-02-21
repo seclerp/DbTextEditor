@@ -1,8 +1,5 @@
-using DbTextEditor.Shared;
 using DbTextEditor.Shared.DataBinding;
 using DbTextEditor.Shared.DataBinding.Interfaces;
-using DbTextEditor.Shared.Exceptions;
-using DbTextEditor.Shared.Storage;
 using DbTextEditor.ViewModel.Interfaces;
 
 namespace DbTextEditor.ViewModel.Commands

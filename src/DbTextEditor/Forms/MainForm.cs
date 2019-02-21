@@ -13,7 +13,9 @@ namespace DbTextEditor.Forms
     public partial class MainForm : Form
     {
         private readonly IMainViewModel _mainViewModel;
-        private readonly ObservableProperty<IEditorViewModel> _selectedEditor = new ObservableProperty<IEditorViewModel>();
+
+        private readonly ObservableProperty<IEditorViewModel> _selectedEditor =
+            new ObservableProperty<IEditorViewModel>();
 
         public MainForm()
         {
@@ -21,7 +23,6 @@ namespace DbTextEditor.Forms
             InitializeComponent();
             InitializeMainMenu();
             InitializeDockPanel();
-            InitializeDatabaseView();
             MakeBindings();
         }
 
@@ -34,6 +35,7 @@ namespace DbTextEditor.Forms
                 case Keys.Control | Keys.S:
                     return true;
             }
+
             return base.ProcessCmdKey(ref msg, keyData);
         }
 
@@ -102,9 +104,7 @@ namespace DbTextEditor.Forms
             using (var dialog = new ImportFileForm())
             {
                 if (dialog.ShowDialog() == DialogResult.OK)
-                {
                     _mainViewModel.ImportCommand.Execute((dialog.FromFileName, dialog.ToFileName));
-                }
             }
         }
 
@@ -113,9 +113,7 @@ namespace DbTextEditor.Forms
             using (var dialog = new ExportFileForm())
             {
                 if (dialog.ShowDialog() == DialogResult.OK)
-                {
                     _mainViewModel.ExportCommand.Execute((dialog.FromFileName, dialog.ToFileName));
-                }
             }
         }
 
@@ -125,23 +123,15 @@ namespace DbTextEditor.Forms
                 OnActiveContentChanged;
         }
 
-        private void InitializeDatabaseView()
-        {
-            new DatabaseViewForm().Show(MainDockPanel, DockState.DockLeft);
-        }
-
         private void OnActiveContentChanged(object sender, EventArgs args)
         {
             if (MainDockPanel.ActiveContent is EditorForm editorForm)
-            {
                 _selectedEditor.Value = editorForm.EditorViewModel;
-            }
         }
 
         private void OnOpenedEditorCollectionChanged(NotifyCollectionChangedEventArgs args)
         {
             if (args.Action == NotifyCollectionChangedAction.Add)
-            {
                 foreach (var newItem in args.NewItems)
                 {
                     var editorForm = new EditorForm(newItem as IEditorViewModel, this);
@@ -150,7 +140,6 @@ namespace DbTextEditor.Forms
                                            DockAreas.DockLeft | DockAreas.DockRight;
                     editorForm.Show(MainDockPanel, DockState.Document);
                 }
-            }
         }
 
         private void OnNewFileClick(object sender, EventArgs args)
@@ -162,10 +151,7 @@ namespace DbTextEditor.Forms
         {
             using (var openDialog = new OpenFileDialogForm())
             {
-                if (openDialog.ShowDialog() != DialogResult.OK)
-                {
-                    return;
-                }
+                if (openDialog.ShowDialog() != DialogResult.OK) return;
 
                 _mainViewModel.OpenFileCommand.Execute((openDialog.FileName, openDialog.StorageType));
             }
@@ -191,10 +177,7 @@ namespace DbTextEditor.Forms
                     "Save changes?", MessageBoxButtons.YesNoCancel);
                 if (saveQuestionResult == DialogResult.Yes)
                 {
-                    if (!Save(editorForm.EditorViewModel))
-                    {
-                        e.Cancel = true;
-                    }
+                    if (!Save(editorForm.EditorViewModel)) e.Cancel = true;
                 }
                 else if (saveQuestionResult == DialogResult.Cancel)
                 {
@@ -205,13 +188,9 @@ namespace DbTextEditor.Forms
 
         public bool Save(IEditorViewModel editor)
         {
-            if (editor is null)
-            {
-                return false;
-            }
+            if (editor is null) return false;
 
             if (editor.IsNewFile)
-            {
                 using (var dialog = new SaveFileDialogForm())
                 {
                     if (dialog.ShowDialog() == DialogResult.OK)
@@ -219,26 +198,22 @@ namespace DbTextEditor.Forms
                         editor.SaveFileAsCommand.Execute((dialog.FileName, dialog.StorageType));
                         return true;
                     }
+
                     return false;
                 }
-            }
+
             editor.SaveFileCommand.Execute();
             return true;
         }
 
         public void SaveAs(IEditorViewModel editor)
         {
-            if (editor is null)
-            {
-                return;
-            }
+            if (editor is null) return;
 
             using (var dialog = new SaveFileDialogForm())
             {
                 if (dialog.ShowDialog() == DialogResult.OK)
-                {
                     editor.SaveFileAsCommand.Execute((dialog.FileName, dialog.StorageType));
-                }
             }
         }
     }

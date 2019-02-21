@@ -1,4 +1,3 @@
-using DbTextEditor.Shared;
 using DbTextEditor.Shared.DataBinding;
 using DbTextEditor.Shared.DataBinding.Interfaces;
 using DbTextEditor.ViewModel.Interfaces;

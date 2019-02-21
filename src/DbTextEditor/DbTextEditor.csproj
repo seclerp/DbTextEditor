@@ -110,12 +110,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Configuration\ApplicationModule.cs" />
-    <Compile Include="Forms\DatabaseViewForm.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Forms\DatabaseViewForm.Designer.cs">
-      <DependentUpon>DatabaseViewForm.cs</DependentUpon>
-    </Compile>
     <Compile Include="Forms\Dialogs\ExportFileForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -157,9 +151,6 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <EmbeddedResource Include="Forms\DatabaseViewForm.resx">
-      <DependentUpon>DatabaseViewForm.cs</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="Forms\Dialogs\ExportFileForm.resx">
       <DependentUpon>ExportFileForm.cs</DependentUpon>
     </EmbeddedResource>

@@ -13,16 +13,16 @@ namespace DbTextEditor.Forms
 {
     public partial class EditorForm : DockContent
     {
-        internal readonly IEditorViewModel EditorViewModel;
         private readonly MainForm _mainForm;
+        internal readonly IEditorViewModel EditorViewModel;
 
         private string _currentFileName;
-        internal ObservableProperty<string> Path;
-        internal ObservableProperty<string> Contents;
-        internal ObservableProperty<bool> IsModified;
-        internal ObservableProperty<StorageType> Storage;
 
         private int _maxLineNumberCharLength;
+        internal ObservableProperty<string> Contents;
+        internal ObservableProperty<bool> IsModified;
+        internal ObservableProperty<string> Path;
+        internal ObservableProperty<StorageType> Storage;
 
         public EditorForm(IEditorViewModel editorViewModel, MainForm mainForm)
         {
@@ -69,7 +69,7 @@ namespace DbTextEditor.Forms
             Bindings.BindObservables(EditorViewModel.Storage, Storage, BindingMode.OneWay, false);
             Bindings.BindObservables(EditorViewModel.Path, Path, BindingMode.OneWay, false);
             Bindings.BindObservables(EditorViewModel.Contents, Contents, BindingMode.TwoWay, false);
-            Bindings.BindObservables(EditorViewModel.IsModified, IsModified,  BindingMode.OneWay, false);
+            Bindings.BindObservables(EditorViewModel.IsModified, IsModified, BindingMode.OneWay, false);
 
             RefreshTabTitle(Path.Value);
             RefreshContents(Contents.Value);
@@ -143,10 +143,7 @@ namespace DbTextEditor.Forms
 
         private void RefreshContents(string newValue)
         {
-            if (newValue != TextEditor.Text)
-            {
-                TextEditor.Text = newValue;
-            }
+            if (newValue != TextEditor.Text) TextEditor.Text = newValue;
         }
 
         private void RefreshTabTitle(string newPath)
@@ -223,14 +220,11 @@ namespace DbTextEditor.Forms
                 var startPos = TextEditor.Lines[TextEditor.LineFromPosition(TextEditor.CurrentPosition)].Position;
                 var endPos = e.Position;
                 //Text until the caret so that the whitespace is always equal in every line.
-                var curLineText = TextEditor.GetTextRange(startPos,endPos - startPos);
+                var curLineText = TextEditor.GetTextRange(startPos, endPos - startPos);
 
                 var indentMatch = Regex.Match(curLineText, "^[ \\t]*");
                 e.Text = e.Text + indentMatch.Value;
-                if (Regex.IsMatch(curLineText, "{\\s*$"))
-                {
-                    e.Text = e.Text + "\t";
-                }
+                if (Regex.IsMatch(curLineText, "{\\s*$")) e.Text = e.Text + "\t";
             }
         }
 
@@ -242,23 +236,24 @@ namespace DbTextEditor.Forms
                 var curLine = TextEditor.LineFromPosition(TextEditor.CurrentPosition);
 
                 if (TextEditor.Lines[curLine].Text.Trim() == "}")
-                {
-                    //Check whether the bracket is the only thing on the line.. For cases like "if() { }".
                     SetIndent(TextEditor, curLine, GetIndent(TextEditor, curLine) - 4);
-                }
             }
         }
 
         #region CodeIndent Handlers
 
-        const int SciSetlineindentation = 2126;
-        const int SciGetlineindentation = 2127;
+        private const int SciSetlineindentation = 2126;
+        private const int SciGetlineindentation = 2127;
 
         private void SetIndent(Scintilla scin, int line, int indent)
-            => scin.DirectMessage(SciSetlineindentation, new IntPtr(line), new IntPtr(indent));
+        {
+            scin.DirectMessage(SciSetlineindentation, new IntPtr(line), new IntPtr(indent));
+        }
 
         private int GetIndent(Scintilla scin, int line)
-            => scin.DirectMessage(SciGetlineindentation, new IntPtr(line), IntPtr.Zero).ToInt32();
+        {
+            return scin.DirectMessage(SciGetlineindentation, new IntPtr(line), IntPtr.Zero).ToInt32();
+        }
 
         #endregion
     }

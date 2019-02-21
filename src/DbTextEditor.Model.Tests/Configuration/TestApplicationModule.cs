@@ -1,6 +1,5 @@
 using DbTextEditor.Model.DAL;
 using DbTextEditor.Model.DAL.Interfaces;
-using DbTextEditor.Model.Entities;
 using DbTextEditor.Model.Infrastructure;
 using DbTextEditor.Model.Infrastructure.Interfaces;
 using Ninject.Modules;

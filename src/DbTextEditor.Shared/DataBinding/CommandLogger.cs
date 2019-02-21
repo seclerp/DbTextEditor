@@ -11,6 +11,7 @@ namespace DbTextEditor.Shared.DataBinding
 
             Debug.WriteLine($"[{parentName}]: {commandName} {message}");
         }
+
         public static void LogExecuted<TParent, TCommand>()
         {
             Log<TParent, TCommand>("executed");

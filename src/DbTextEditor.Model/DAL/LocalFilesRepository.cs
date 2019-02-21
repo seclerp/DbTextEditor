@@ -9,10 +9,7 @@ namespace DbTextEditor.Model.DAL
     {
         public bool Exists(string key)
         {
-            if (key is null)
-            {
-                return false;
-            }
+            if (key is null) return false;
 
             return File.Exists(key);
         }
@@ -50,9 +47,7 @@ namespace DbTextEditor.Model.DAL
         private void CheckIfFileExists(string path)
         {
             if (!File.Exists(path))
-            {
                 throw new BusinessLogicException($"File '{path}' doesn't exists in local filesystem");
-            }
         }
     }
 }

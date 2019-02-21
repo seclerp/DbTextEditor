@@ -9,9 +9,9 @@ namespace DbTextEditor.ViewModel.Commands
 {
     public class ImportCommand : ICommand<(string From, string To)>
     {
-        private readonly IMainViewModel _mainViewModel;
-        private readonly IFilesAdapter _localFilesAdapter;
         private readonly IFilesAdapter _dbFilesAdapter;
+        private readonly IFilesAdapter _localFilesAdapter;
+        private readonly IMainViewModel _mainViewModel;
 
         public ImportCommand(IMainViewModel mainViewModel)
         {
@@ -24,9 +24,7 @@ namespace DbTextEditor.ViewModel.Commands
         {
             var fromModel = _localFilesAdapter.Open(payload.From);
             if (fromModel is null)
-            {
                 throw new BusinessLogicException($"File '{payload.From}' not found in local filesystem");
-            }
             _dbFilesAdapter.Save(new FileDto
             {
                 FileName = payload.To,

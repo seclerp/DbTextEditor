@@ -27,7 +27,8 @@ namespace DbTextEditor.Configuration
 
             Bind<IDbFilesRepository>()
                 .To<DbFilesRepository>()
-                .WithConstructorArgument("connectionString", ConfigurationManager.ConnectionStrings["Main"].ConnectionString);
+                .WithConstructorArgument("connectionString",
+                    ConfigurationManager.ConnectionStrings["Main"].ConnectionString);
 
             Bind<IFilesAdapter>()
                 .To<LocalFilesAdapter>()

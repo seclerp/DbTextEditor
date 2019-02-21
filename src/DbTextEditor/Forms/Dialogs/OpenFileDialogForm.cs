@@ -28,10 +28,7 @@ namespace DbTextEditor.Forms.Dialogs
 
         private void OnChoosePathButtonClick(object sender, EventArgs e)
         {
-            if (OpenDialog.ShowDialog() == DialogResult.OK)
-            {
-                FromFileBox.Text = OpenDialog.FileName;
-            }
+            if (OpenDialog.ShowDialog() == DialogResult.OK) FromFileBox.Text = OpenDialog.FileName;
         }
 
         private void OnOpenClick(object sender, EventArgs args)
@@ -51,10 +48,7 @@ namespace DbTextEditor.Forms.Dialogs
             }
             else if (DatabaseRadioButton.Checked)
             {
-                if (FromDatabaseListView.SelectedItems.Count == 0)
-                {
-                    return;
-                }
+                if (FromDatabaseListView.SelectedItems.Count == 0) return;
 
                 var fileName = FromDatabaseListView.SelectedItems[0].Text;
                 if (!DbFilesAdapter.Exists(fileName))

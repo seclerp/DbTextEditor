@@ -1,16 +1,10 @@
 ﻿using System;
 using System.Windows.Forms;
-using DbTextEditor.Model.Infrastructure.Interfaces;
-using DbTextEditor.Shared.DependencyInjection;
-using DbTextEditor.ViewModel.Interfaces;
 
 namespace DbTextEditor.Forms.Dialogs
 {
     public partial class ImportFileForm : Form
     {
-        public string FromFileName { get; protected set; } = "";
-        public string ToFileName { get; protected set; } = "";
-
         public ImportFileForm()
         {
             InitializeComponent();
@@ -19,12 +13,12 @@ namespace DbTextEditor.Forms.Dialogs
             ImportFileChoosePath.Click += OnImportFileChoosePathClick;
         }
 
+        public string FromFileName { get; protected set; } = "";
+        public string ToFileName { get; protected set; } = "";
+
         private void OnImportFileChoosePathClick(object sender, EventArgs e)
         {
-            if (OpenDialog.ShowDialog() == DialogResult.OK)
-            {
-                ImportFileBox.Text = OpenDialog.FileName;
-            }
+            if (OpenDialog.ShowDialog() == DialogResult.OK) ImportFileBox.Text = OpenDialog.FileName;
         }
 
         private void OnImportButtonClick(object sender, EventArgs e)

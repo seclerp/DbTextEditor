@@ -21,15 +21,9 @@ namespace DbTextEditor.Shared.DataBinding
             BindingMode mode = BindingMode.TwoWay, bool setValue = true)
         {
             from.ValueChanged += (sender, newValue) => to.Value = newValue;
-            if (mode == BindingMode.TwoWay)
-            {
-                to.ValueChanged += (sender, newValue) => from.Value = newValue;
-            }
+            if (mode == BindingMode.TwoWay) to.ValueChanged += (sender, newValue) => from.Value = newValue;
 
-            if (setValue)
-            {
-                to.Value = from.Value;
-            }
+            if (setValue) to.Value = from.Value;
         }
 
         public static void BindCollections<TValue>(ObservableCollection<TValue> from, ObservableCollection<TValue> to)
@@ -44,27 +38,16 @@ namespace DbTextEditor.Shared.DataBinding
             from.CollectionChanged += (sender, args) =>
             {
                 if (args.OldItems != null)
-                {
                     foreach (var oldItem in args.OldItems)
-                    {
                         to.Remove(converter((TValueFrom) oldItem));
-                    }
-                }
 
                 if (args.NewItems != null)
-                {
                     foreach (var newItem in args.NewItems)
-                    {
                         to.Add(converter((TValueFrom) newItem));
-                    }
-                }
             };
 
             to.Clear();
-            foreach (var value in from)
-            {
-                to.Add(converter(value));
-            }
+            foreach (var value in from) to.Add(converter(value));
         }
     }
 }

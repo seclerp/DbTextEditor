@@ -19,10 +19,7 @@ namespace DbTextEditor.Forms.Dialogs
 
         private void OnChoosePathButtonClick(object sender, EventArgs e)
         {
-            if (SaveDialog.ShowDialog() == DialogResult.OK)
-            {
-                ToLocalFileName.Text = SaveDialog.FileName;
-            }
+            if (SaveDialog.ShowDialog() == DialogResult.OK) ToLocalFileName.Text = SaveDialog.FileName;
         }
 
         private void OnChecked(object sender, EventArgs args)
@@ -34,13 +31,8 @@ namespace DbTextEditor.Forms.Dialogs
         {
             var fileName = string.Empty;
             if (ToLocalRadioButton.Checked)
-            {
                 fileName = ToLocalFileName.Text.Trim();
-            }
-            else if (ToDbRadioButton.Checked)
-            {
-                fileName = ToDbFileName.Text.Trim();
-            }
+            else if (ToDbRadioButton.Checked) fileName = ToDbFileName.Text.Trim();
 
             var adapter = StorageType == StorageType.Local ? LocalFilesAdapter : DbFilesAdapter;
             if (adapter.Exists(fileName))
